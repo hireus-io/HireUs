@@ -22,7 +22,11 @@ class MultipleComplex extends Component {
     return (
       <>
         {this.state.amountToRender.map((num, i) => (
-          <ComplexInput key={num + i} mainName={this.props.mainName} subInputs={this.props.subInputs} />
+          <ComplexInput
+            key={num + i}
+            mainName={this.props.mainName}
+            subInputs={this.props.subInputs}
+          />
         ))}
         <div className={'extraComplexButton'}>
           <button onClick={this.renderAnother.bind(this)}>{`Add another ${this.props.mainName}`}</button>
