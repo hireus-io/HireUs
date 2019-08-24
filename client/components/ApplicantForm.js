@@ -153,7 +153,11 @@ class ApplicantForm extends Component {
   render() {
     return (
       <>
+        <header className={'header'}>
+          <h1>Build Your Resume</h1>
+        </header>
         <form id={'applicantForm'}>
+          <span className={'inputSectionTitle'}>{'Basic Information'}</span>
           <BasicInput info={{
             name: 'basics_name', schemaName: 'name', displayName: 'Name:', placeholder: '', parent: 'basics',
           }} />
@@ -175,7 +179,7 @@ class ApplicantForm extends Component {
           <BasicInput info={{
             name: 'basics_summary', schemaName: 'summary', displayName: 'Summary:', placeholder: '', parent: 'basics',
           }} />
-          <ComplexInput mainName={'location'} subInputs={[
+          <ComplexInput mainName={'Location'} subInputs={[
             {
               name: 'location_address', schemaName: 'address', displayName: 'Address:', placeholder: '', parent: 'location',
             },
@@ -192,7 +196,7 @@ class ApplicantForm extends Component {
               name: 'location_region', schemaName: 'region', displayName: 'State:', placeholder: '', parent: 'location',
             },
           ]} />
-          <MultipleComplex mainName={'Social'} subInputs={[
+          <MultipleComplex mainName={'Social Links'} subInputs={[
             {
               name: 'profiles_network', schemaName: 'network', displayName: 'Network:', placeholder: '', parent: 'profiles',
             },
@@ -203,7 +207,7 @@ class ApplicantForm extends Component {
               name: 'profiles_url', schemaName: 'url', displayName: 'Link:', placeholder: '', parent: 'profiles',
             },
           ]}/>
-          <MultipleComplex mainName={'work'} subInputs={[
+          <MultipleComplex mainName={'Work Experience'} subInputs={[
             {
               name: 'work_company', schemaName: 'company', displayName: 'Company:', placeholder: '', parent: 'work',
             },
@@ -226,7 +230,7 @@ class ApplicantForm extends Component {
               name: 'work_highlights', schemaName: 'highlights', displayName: 'Hightlights:', placeholder: '', parent: 'work',
             },
           ]} />
-          <MultipleComplex mainName={'volunteer'} subInputs={[
+          <MultipleComplex mainName={'Volunteer Experience'} subInputs={[
             {
               name: 'volunteer_organization', schemaName: 'organization', displayName: 'Organization:', placeholder: '', parent: 'volunteer',
             },
@@ -249,7 +253,7 @@ class ApplicantForm extends Component {
               name: 'volunteer_highlights', schemaName: 'highlights', displayName: 'Highlights:', placeholder: '', parent: 'volunteer',
             },
           ]} />
-          <MultipleComplex mainName={'education'} subInputs={[
+          <MultipleComplex mainName={'Education'} subInputs={[
             {
               name: 'education_institution', schemaName: 'institution', displayName: 'Institution:', placeholder: '', parent: 'education',
             },
@@ -272,7 +276,7 @@ class ApplicantForm extends Component {
               name: 'education_courses', schemaName: 'courses', displayName: 'Courses:', placeholder: '', parent: 'education',
             },
           ]} />
-          <MultipleComplex mainName={'awards'} subInputs={[
+          <MultipleComplex mainName={'Awards'} subInputs={[
             {
               name: 'awards_title', schemaName: 'title', displayName: 'Title:', placeholder: '', parent: 'awards',
             },
@@ -286,7 +290,7 @@ class ApplicantForm extends Component {
               name: 'awards_summary', schemaName: 'summary', displayName: 'Summary:', placeholder: '', parent: 'awards',
             },
           ]} />
-          <MultipleComplex mainName={'publications'} subInputs={[
+          <MultipleComplex mainName={'Published Work'} subInputs={[
             {
               name: 'publications_name', schemaName: 'name', displayName: 'Name:', placeholder: '', parent: 'publications',
             },
@@ -303,7 +307,7 @@ class ApplicantForm extends Component {
               name: 'publications_summary', schemaName: 'summary', displayName: 'Summary:', placeholder: '', parent: 'publications',
             },
           ]} />
-          <MultipleComplex mainName={'skills'} subInputs={[
+          <MultipleComplex mainName={'Skills'} subInputs={[
             {
               name: 'skills_name', schemaName: 'name', displayName: 'Name:', placeholder: '', parent: 'skills',
             },
@@ -314,7 +318,7 @@ class ApplicantForm extends Component {
               name: 'skills_keywords', schemaName: 'keywords', displayName: 'Keywords:', placeholder: '', parent: 'skills',
             },
           ]} />
-          <MultipleComplex mainName={'languages'} subInputs={[
+          <MultipleComplex mainName={'Languages'} subInputs={[
             {
               name: 'languages_language', schemaName: 'language', displayName: 'Language:', placeholder: '', parent: 'languages',
             },
@@ -322,7 +326,7 @@ class ApplicantForm extends Component {
               name: 'languages_fluency', schemaName: 'fluency', displayName: 'Fluency:', placeholder: '', parent: 'languages',
             },
           ]} />
-          <MultipleComplex mainName={'interests'} subInputs={[
+          <MultipleComplex mainName={'Other Interests'} subInputs={[
             {
               name: 'interests_name', schemaName: 'name', displayName: 'Name:', placeholder: '', parent: 'interests',
             },
@@ -330,7 +334,7 @@ class ApplicantForm extends Component {
               name: 'interests_keywords', schemaName: 'keywords', displayName: 'Keywords:', placeholder: '', parent: 'interests',
             },
           ]} />
-          <MultipleComplex mainName={'references'} subInputs={[
+          <MultipleComplex mainName={'References'} subInputs={[
             {
               name: 'references_name', schemaName: 'name', displayName: 'Name:', placeholder: '', parent: 'references',
             },
@@ -338,7 +342,7 @@ class ApplicantForm extends Component {
               name: 'references_reference', schemaName: 'reference', displayName: 'Contact Info:', placeholder: '', parent: 'references',
             },
           ]} />
-          <input type={'submit'} onClick={this.handleSubmit.bind(this)}></input>
+          <input className={'formSubmit'} type={'submit'} onClick={this.handleSubmit.bind(this)}></input>
         </form>
       </>
     );
