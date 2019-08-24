@@ -1,0 +1,57 @@
+{
+  "name": "yuuvis_hackathon",
+  "version": "0.0.1",
+  "author": "Nicholas Miron <nicholasmiron@gmail.com>",
+  "description": "The project created for the yuuvis hackathon",
+  "main": "index.js",
+  "license": "ISC",
+  "engines": {
+    "node": ">=11"
+  },
+  "scripts": {
+    "start": "nodemon server/index.js",
+    "start:dev": "webpack-dev-server --color ",
+    "build": "webpack -w --profile",
+    "launch": "npm run build & npm run start",
+    "liftoff": "npm run start:dev & npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NicholasMiron/Simple_Boilerplate.git"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.6.7",
+    "morgan": "^1.9.1",
+    "prismjs": "^1.17.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "sequelize": "^5.12.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.0.2",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-prismjs": "^1.1.1",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.17.1",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "nodemon": "^1.18.11",
+    "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.7.2"
+  }
+}
