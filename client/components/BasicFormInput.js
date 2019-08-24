@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 const BasicInput = ({ info }) => (
     <div className={'inputSection'}>
-      <label htmlFor={info.name}>{info.displayName}</label>
-      <input type={'text'} name={info.name} placeholder={info.placeholder}></input>
+      <label className={'label'} htmlFor={info.name}>{info.displayName}</label>
+      <input className={'input'} type={'text'} name={info.name} placeholder={info.placeholder}></input>
     </div>
 );
 

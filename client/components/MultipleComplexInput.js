@@ -29,7 +29,7 @@ class MultipleComplex extends Component {
           />
         ))}
         <div className={'extraComplexButton'}>
-          <button onClick={this.renderAnother.bind(this)}>{`Add another ${this.props.mainName}`}</button>
+          <button className={'multipleInputButton'} onClick={this.renderAnother.bind(this)}>{`Add another ${this.props.mainName}`}</button>
         </div>
       </>
     );
