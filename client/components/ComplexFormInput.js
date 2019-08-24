@@ -6,8 +6,8 @@ import BasicInput from './BasicFormInput';
 const ComplexInput = ({ mainName, subInputs }) => (
     <>
       <span>{mainName}</span>
-      {subInputs.map(subInput => (
-        <BasicInput name={subInput} />
+      {subInputs.map((subInput, i) => (
+        <BasicInput key={subInput.name + i} info={subInput} />
       ))}
     </>
 );
