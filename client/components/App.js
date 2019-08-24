@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Recruiting from './Recruiting';
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <>
-        {'Hello World'}
+        <Recruiting />
       </>
     )
   }

@@ -2,3 +2,13 @@ body, html {
   padding: 0;
   margin: 0;
 }
+
+#navbar {
+  background-color: lightblue;
+  text-align: left;
+  padding-left: 20px;
+}
+
+#search {
+  padding-left: 20px;
+}
