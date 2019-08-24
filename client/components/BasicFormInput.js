@@ -2,15 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const BasicInput = ({ name }) => (
+const BasicInput = ({ info }) => (
     <div className={'inputSection'}>
-      <label htmlFor={name}>{name}</label>
-      <input type={'text'} name={name}></input>
+      <label htmlFor={info.name}>{info.displayName}</label>
+      <input type={'text'} name={info.name} placeholder={info.placeholder}></input>
     </div>
 );
 
 BasicInput.propTypes = {
-  name: PropTypes.string,
+  info: PropTypes.shape({
+    name: PropTypes.string,
+    displayName: PropTypes.string,
+    placeholder: PropTypes.string,
+  }),
 };
 
 export default BasicInput;
