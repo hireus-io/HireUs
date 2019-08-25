@@ -178,7 +178,7 @@ class ApplicantForm extends Component {
       responseType: 'blob',
     })
       .then(() => {
-        window.open('/api/resume');
+        window.open('/api/download/resume');
       });
   }
 
