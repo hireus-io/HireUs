@@ -1,4 +1,5 @@
 import React from 'react';
+import RecruitingFocus from './RecruitingFocus';
 const axios = require('axios');
 
 class Recruiting extends React.Component {
@@ -96,7 +97,7 @@ class Recruiting extends React.Component {
       <h3>{resume.basics.phone}</h3>
       </>
     ))}
-
+    <RecruitingFocus focusResume={this.state.currentResume}/>
     </div>
     )}
 }
