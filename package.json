@@ -21,12 +21,14 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "commander": "^3.0.0",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "mongoose": "^5.6.7",
     "morgan": "^1.9.1",
     "prismjs": "^1.17.1",
     "prop-types": "^15.7.2",
+    "puppeteer": "^1.19.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "sequelize": "^5.12.2"
