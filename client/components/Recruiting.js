@@ -48,10 +48,14 @@ class Recruiting extends React.Component {
     // filter resumes using skills in searchProps
     // Add filtered resumes to matching resumes array
     // Display resumes on page
-    axios.get('https://jsonplaceholder.typicode.com/todos/1')
+    let skill = this.state.searchProps[0];
+    axios.get(`/api/resume/${skill}`)
     .then( (response) => {
       // handle success
-      console.log('success', response);
+      console.log('success', response.data[0].basics.name);
+      // let name = response.data[0].basics.name;
+      let newMatchingResumes = response.data;
+      this.setState({matchingResumes: newMatchingResumes})
     })
     .catch( (error) => {
       // handle error
@@ -78,6 +82,9 @@ class Recruiting extends React.Component {
       </ul>
 
     <button type="button" onClick={this.handleSearch}>Search</button>
+    {this.state.matchingResumes.map( (resume) => (
+      <h2>{resume.basics.name}</h2>
+    ))}
 
     </div>
     )}
