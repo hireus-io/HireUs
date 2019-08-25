@@ -1,4 +1,115 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+
 body, html {
   padding: 0;
   margin: 0;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+#navbar {
+  background-color: lightblue;
+  text-align: left;
+  padding-left: 20px;
+}
+
+#search {
+  padding-left: 20px;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: rgb(146, 110, 110);
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+#applicantForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgb(197, 197, 197);
+}
+
+.inputSection {
+  width: 25vw;
+  margin: 20px;
+  padding-right: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+
+.inputSection input {
+  height: 35px;
+  width: 200px;
+  font-size: 1.2em;
+}
+
+.label {
+  justify-self: flex-end;
+  margin-right: 12px;
+  font-size: 1.6em;
+}
+
+.input {
+  float: left;
+}
+
+.inputSectionTitle {
+  font-size: 2.5em;
+  margin-top: 75px;
+}
+
+.multipleInputButton {
+  height: 25px;
+  border-radius: 2px;
+}
+
+.multipleInputButton:hover {
+  background-color: #707070;
+  cursor: pointer;
+}
+
+.formSubmit {
+  margin: 25px;
+}
+
+.splash {
+  display: flex;
+  color: white;
+  font-size: 5em;
+}
+
+
+.splashLeft {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(104, 104, 104);
+}
+
+.splashItem:hover {
+  cursor: pointer;
+  background-color: #707070;
+}
+
+.splashRight {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(83, 83, 83);
 }

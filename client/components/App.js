@@ -1,19 +1,44 @@
 import React, { Component } from 'react';
+import Recruiting from './Recruiting';
+
+import Splash from './Splash';
+import ApplicantForm from './ApplicantForm';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      currentPage: 'home',
     };
   }
 
+  changePage(e, currentPage) {
+    e.preventDefault();
+    this.setState({ currentPage });
+  }
+
   render() {
-    return (
-      <>
-        {'Hello World'}
-      </>
-    )
+    if (this.state.currentPage === 'search') {
+      return (
+        <>
+          <Recruiting />
+        </>
+      );
+    }
+    if (this.state.currentPage === 'home') {
+      return (
+        <>
+          <Splash changePage={this.changePage.bind(this)} />
+        </>
+      );
+    } if (this.state.currentPage === 'create') {
+      return (
+        <>
+          <ApplicantForm changePage={this.changePage.bind(this)}/>
+        </>
+      );
+    }
+    return <div>{'Whoops You Shoul\'nt Be Here'}</div>;
   }
 }
 
