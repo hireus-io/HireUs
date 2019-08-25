@@ -255,7 +255,8 @@ h1 {
 }
 
 .recruiterSkills li {
-  font-size: 25px;
+  font-size: 35px;
+  list-style-type: none;
 }
 
 .recruiterSkills li:hover {
