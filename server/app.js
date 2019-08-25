@@ -1,8 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-const FormData = require('form-data');
-const meta = require('./sample_data/meta');
-const data = require('./sample_data/data');
 const path = require("path");
 const request = require('request');
 const fs = require('fs');
@@ -98,18 +95,21 @@ app.use(express.static('dist'));
 app.post('/api/resume', express.json(), (req, res) => {
   let { email, keywords, resume } = req.body;
   //we need to add a function that writes to resume.json
-  console.log('Resume: ', JSON.stringify(resume));
+  resume = JSON.stringify(resume);
+  fs.writeFile(path.join(__dirname, "/resume.json"), resume, (err) => {
+    if (err) throw err;
+    let key = process.env.API_KEY;
+    let baseUrl = 'https://api.yuuvis.io/';
+    let doc_name = 'resume.json';
+    let doc_fileName = path.join(__dirname, '/resume.json');
+    let cid = 'cid_63apple';
+    let doc_mimeType = 'application/json';
+    let requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
   
-  let key = process.env.API_KEY;
-  let baseUrl = 'https://api.yuuvis.io/';
-  let doc_name = 'resume.json';
-  let doc_fileName = path.join(__dirname, '/resume.json');
-  let cid = 'cid_63apple';
-  let doc_mimeType = 'application/json';
-  let requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
+    executeRequest(requestObject);
+    res.send();
+  })
 
-  executeRequest(requestObject);
-  res.send();
   // const metadata = JSON.stringify(meta);
   // const resumedata = JSON.stringify(data);
   // // console.log(metadata);
@@ -140,7 +140,8 @@ app.post('/api/resume', express.json(), (req, res) => {
   //     });
   // })
 });
-app.post('/api/resume/search', (req, res) => {
+app.get('/api/resume/:keyword', (req, res) => {
+  const { keyword } = req.params;
   axios({
     "url": "https://api.yuuvis.io/dms/objects/search",
     "method": "POST",
@@ -148,13 +149,31 @@ app.post('/api/resume/search', (req, res) => {
       "Ocp-Apim-Subscription-Key": process.env.API_KEY},
     data: {
       "query": {
-        "statement": "SELECT * FROM enaio:object WHERE CONTAINS('programming')"
+        "statement": `SELECT * FROM enaio:object WHERE CONTAINS('${keyword}')`
       }
     }
   })
   .then((response) => {
-    console.log(response);
-    res.send('Success');
+
+    const promises = response.data["objects"].map(entry => {
+      const objectId = entry["properties"]["enaio:objectId"]["value"];
+      const contentType = entry["contentStreams"][0]["mimeType"];
+      if(contentType === 'application/pdf') {
+        return;
+      }
+      const headers = { headers: {'Ocp-Apim-Subscription-Key': process.env.API_KEY}}
+      return axios.get(`https://api.yuuvis.io/dms/objects/${objectId}/contents/file`, headers);
+    })
+    Promise.all(promises)
+      .then(results => {
+        const resumes = results.map(result => result.data);
+        res.send(resumes);
+        return;
+      })
+      .catch(err => {
+        throw(err);
+        res.send();
+      })
   })
   .catch((error) => {
     console.log('Error: ', error);
