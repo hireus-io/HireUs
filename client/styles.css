@@ -217,8 +217,9 @@ h1 {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  background-color: rgb(137, 231, 243);
+  background-color: lightskyblue;
   padding: 25px;
+  border-bottom: 3px solid black;
 }
 
 #recruiterForm {
@@ -243,10 +244,10 @@ h1 {
   color: black;
 }
 
-#formtext:focus {
+/* #formtext:focus {
   background-color: rgb(104, 247, 247);
 
-}
+} */
 
 .recruiterSkills {
   grid-column: 1 / -1;
@@ -294,10 +295,13 @@ h1 {
   grid-column: 1 / -1;
   border: 1px solid black;
   padding-left: 20px;
+  background-color: lightgrey;
 }
 
 .matchingResume h2:hover {
   cursor: pointer;
+  font-weight: bold;
+  font-size: 25px;
 }
 
 .selectedResume {
