@@ -9,7 +9,7 @@ const RecruitingList = ({ resumes, handleView }) => {
       <h3>{resume.basics.phone}</h3>
     </div>
   ));
-  return <>{mapResumes}</>;
+  return <div className={'allMatchingResumes'}>{mapResumes}</div>;
 };
 
 RecruitingList.propTypes = {
