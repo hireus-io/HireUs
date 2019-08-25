@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Axios from 'axios';
 
 import BasicInput from './BasicFormInput';
 import ComplexInput from './ComplexFormInput';
@@ -45,6 +47,7 @@ class ApplicantForm extends Component {
     const newResumeJSON = JSON.parse(JSON.stringify(this.state.schema));
 
     const entries = [...myForm.entries()];
+    let keywords = '';
 
     for (let i = 0; i < entries.length; i += 1) {
       const pair = entries[i];
@@ -145,9 +148,19 @@ class ApplicantForm extends Component {
         };
         i += 1;
         newResumeJSON.references.push(newReference);
+      } else if (schemaLoc[0] === 'keywords') {
+        keywords = pair[1];
       }
     }
-    console.log(newResumeJSON);
+
+    Axios.post('/api/resume', {
+      email: newResumeJSON.basics.email,
+      resume: newResumeJSON,
+      keywords,
+    })
+      .then(() => {
+        // this.props.changePage(e, 'home');
+      });
   }
 
   render() {
@@ -342,11 +355,17 @@ class ApplicantForm extends Component {
               name: 'references_reference', schemaName: 'reference', displayName: 'Contact Info:', placeholder: '', parent: 'references',
             },
           ]} />
+          <BasicInput info={{ name: 'keywords_keywords', displayName: 'Keywords', placeholder: 'Seperate by commas' }}/>
           <input className={'formSubmit'} type={'submit'} onClick={this.handleSubmit.bind(this)}></input>
         </form>
       </>
     );
   }
 }
+
+ApplicantForm.propTypes = {
+  changePage: PropTypes.func,
+};
+
 
 export default ApplicantForm;
