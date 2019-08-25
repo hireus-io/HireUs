@@ -1,4 +1,5 @@
 import React from 'react';
+const axios = require('axios');
 
 class Recruiting extends React.Component {
   constructor(props) {
@@ -44,10 +45,18 @@ class Recruiting extends React.Component {
   }
 
   handleSearch () {
-
     // filter resumes using skills in searchProps
     // Add filtered resumes to matching resumes array
     // Display resumes on page
+    axios.get('https://jsonplaceholder.typicode.com/todos/1')
+    .then( (response) => {
+      // handle success
+      console.log('success', response);
+    })
+    .catch( (error) => {
+      // handle error
+      console.log('error in handleSearch function:', error);
+    })
   }
 
   render () {
