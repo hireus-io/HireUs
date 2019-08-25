@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import RecruitingFocus from './RecruitingFocus';
 import RecruitingList from './RecruitingList';
 import RecruitingSearch from './RecruitingSearch';
@@ -84,21 +85,28 @@ class Recruiting extends React.Component {
 
   render() {
     return (
-    <div className='Recruiter'>
-      <h1 id="navbar">Recruiter Dashboard</h1>
+      <>
+      <header className={'header top'}>
+        <h1 onClick={e => this.props.changePage(e, 'home')}>Recruiter Dashboard</h1>
+      </header>
+      <div className='Recruiter'>
       <RecruitingSearch handleAddSkill={this.handleAddSkill}
                         value={this.state.value}
                         handleChange={this.handleChange}
                         handleRemoveSkill={this.handleRemoveSkill}
                         searchProps={this.state.searchProps}
                         handleSearch={this.handleSearch}/>
-      {/* <div className='recruiter-main-container'> */}
         <RecruitingList className='recruiter-sidebar' resumes={this.state.matchingResumes} handleView={this.handleView}/>
         <RecruitingFocus className='recruiter-focus' focusResume={this.state.currentResume}/>
-      {/* </div> */}
     </div>
+    </>
     );
   }
 }
+
+Recruiting.propTypes = {
+  changePage: PropTypes.func,
+};
+
 
 export default Recruiting;
