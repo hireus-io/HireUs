@@ -197,6 +197,7 @@ h1 {
 /* .recruiter-focus {
   flex: 5;
   padding: 10px;
+<<<<<<< HEAD
 } */
 
 .Recruiter {
@@ -290,3 +291,14 @@ h1 {
   grid-column: 5 / -1;
   grid-row: 3;
 }
+=======
+  background-color: #eee;
+}
+
+.recruiter-focus-header {
+  font-size: 22px;
+}
+.recruiter-focus-title {
+  font-size: 18px;
+}
+>>>>>>> 69e1f7516e43651b44d992e9eb29d16b9d5a66a6
