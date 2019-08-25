@@ -194,9 +194,9 @@ h1 {
   color: black;
 }
 
-#formtext:focus {
+/* #formtext:focus {
   background-color: rgb(104, 247, 247);
-}
+} */
 
 .recruiterSkills {
   grid-column: 1 / -1;
@@ -251,10 +251,12 @@ h1 {
 .matchingResume h2:hover {
   cursor: pointer;
   font-weight: bold;
-  font-size: 25px;
+  text-decoration: underline;
 }
 
 .selectedResume {
   grid-column: 5 / -1;
-  grid-row: 3 / 10;
+  grid-row: 2 / 10;
+  text-align: center;
+  font-size: 1.5em;
 }
