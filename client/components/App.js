@@ -18,12 +18,12 @@ class App extends Component {
   }
 
   render() {
-    if(this.state.currentPage === 'search'){
+    if (this.state.currentPage === 'search') {
       return (
         <>
           <Recruiting />
-        </> 
-      )
+        </>
+      );
     }
     if (this.state.currentPage === 'home') {
       return (
@@ -34,7 +34,7 @@ class App extends Component {
     } if (this.state.currentPage === 'create') {
       return (
         <>
-          <ApplicantForm />
+          <ApplicantForm changePage={this.changePage.bind(this)}/>
         </>
       );
     }
