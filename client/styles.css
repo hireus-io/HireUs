@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Teko:600&display=swap');
 
 body, html {
   padding: 0;
@@ -22,12 +23,14 @@ h1 {
 }
 
 .header {
-  background-color: rgb(146, 110, 110);
+  font-family: 'Teko', sans-serif;
+  background-color: #213b91;
   height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
+  font-size: 1.4em;
 }
 
 #applicantForm {
@@ -85,11 +88,78 @@ h1 {
 }
 
 .splash {
-  display: flex;
+  width: 100vw;
+  height: 100vh;
+  
+  /* display: flex; */
+  /* flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  
   color: white;
   font-size: 5em;
+  background-image: url('https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3302&q=80');
+  background-size: cover;
+  font-family: 'Teko', sans-serif;
+
 }
 
+.splash button {
+  font-family: 'Teko', sans-serif;
+  grid-column: 3 / 5;
+  height: 85px;
+  width: 550px;
+  outline: none;
+  border: 1px solid #102875;
+  background-color: #102875;
+  color: white;
+  font-size: 35px;
+}
+
+.splash button:hover {
+  cursor: pointer;
+  background-color: #133790;
+  border: 2px solid white;
+}
+
+.splash button:nth-child(1) {
+  grid-row: 6 / 7;
+}
+
+.splash button:nth-child(2) {
+  grid-row: 8 / 9;
+}
+
+.callToAction {
+  grid-column: 1 / -1;
+  justify-self: center;
+  grid-row: 3 / 4;
+  font-size: 75px;
+  color: black;
+}
+
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 75px;
+  width: 100vw;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 10;
+  height: 55px;
+  width: 100vw;
+  margin: 20px;
+  font-size: 1.3em;
+}
 
 .splashLeft {
   width: 50vw;
