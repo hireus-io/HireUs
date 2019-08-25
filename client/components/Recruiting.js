@@ -91,11 +91,11 @@ class Recruiting extends React.Component {
       </label>
       <input type="submit" value="Add Skill"/>
     </form>
-      <ul>
-        {this.state.searchProps.map((item) => (
-          <li id={item} onClick={this.handleRemoveSkill}>{item}</li>
-          ))}
-      </ul>
+    <ul>
+      {this.state.searchProps.map((item) => (
+        <li id={item} onClick={this.handleRemoveSkill}>{item}</li>
+      ))}
+    </ul>
 
     <button type="button" onClick={this.handleSearch}>Search</button>
     {this.state.matchingResumes.map( (resume) => (
