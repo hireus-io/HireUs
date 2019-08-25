@@ -116,6 +116,7 @@ app.post('/api/resume', express.json(), (req, res) => {
     const requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
 
     executeRequest(requestObject);
+
   });
 
   fs.writeFile('resume.json', JSON.stringify(req.body.resume, null, 2), () => {
@@ -157,9 +158,22 @@ app.post('/api/resume', express.json(), (req, res) => {
   //       res.send('Error');
   //     });
   // })
+
+
+
+
 });
 app.get('/api/resume/:keyword', (req, res) => {
-  const { keyword } = req.params;
+  const { keywords } = req.params;
+  const searches = keywords.split('&');
+  let searchString = '';
+
+  for (let i = 0; i < searches.length; i++) {
+    searchString += `CONTAINS('${searches[i]}') OR `;
+  }
+  searchString = searchString.substring(0, searchString.length - 4);
+  console.log(searchString);
+
   axios({
     url: 'https://api.yuuvis.io/dms/objects/search',
     method: 'POST',
