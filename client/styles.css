@@ -254,6 +254,15 @@ h1 {
   grid-template-columns: repeat(12, 1fr)
 }
 
+.recruiterSkills li {
+  font-size: 25px;
+}
+
+.recruiterSkills li:hover {
+  text-decoration: line-through;
+  cursor: pointer;
+}
+
 .buttonSearchSkills {
   grid-column: 1 / -1;
 }
@@ -276,8 +285,13 @@ h1 {
   border: 2px solid white;
 }
 
-.matchingResume {
+.allMatchingResumes {
   grid-column: 1 / 4;
+  height: 100vh;
+}
+
+.matchingResume {
+  grid-column: 1 / -1;
   border: 1px solid black;
   padding-left: 20px;
 }
@@ -288,5 +302,5 @@ h1 {
 
 .selectedResume {
   grid-column: 5 / -1;
-  grid-row: 3;
+  grid-row: 3 / 10;
 }
