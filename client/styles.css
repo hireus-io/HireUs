@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+
 body, html {
   padding: 0;
   margin: 0;
+  font-family: 'Titillium Web', sans-serif;
 }
 
 h1 {
@@ -69,4 +72,34 @@ h1 {
 
 .formSubmit {
   margin: 25px;
+}
+
+.splash {
+  display: flex;
+  color: white;
+  font-size: 5em;
+}
+
+
+.splashLeft {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(104, 104, 104);
+}
+
+.splashItem:hover {
+  cursor: pointer;
+  background-color: #707070;
+}
+
+.splashRight {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(83, 83, 83);
 }
