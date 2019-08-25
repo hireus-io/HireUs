@@ -1,4 +1,5 @@
 import React from 'react';
+const axios = require('axios');
 
 class Recruiting extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class Recruiting extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleAddSkill = this.handleAddSkill.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleRemoveSkill = this.handleRemoveSkill.bind(this);
   }
 
   handleChange (e) {
@@ -33,11 +35,32 @@ class Recruiting extends React.Component {
     this.setState({text: ''});
   }
 
+  handleRemoveSkill (e) {
+    let skillId = e.target.id;
+    let skillIndex = this.state.searchProps.indexOf(skillId);
+    let newSearchProps = this.state.searchProps;
+    newSearchProps.splice(skillIndex, 1);
+    
+    this.setState({ searchProps: newSearchProps });
+  }
+
   handleSearch () {
-    console.log(this.state.searchProps);
     // filter resumes using skills in searchProps
     // Add filtered resumes to matching resumes array
     // Display resumes on page
+    let skill = this.state.searchProps[0];
+    axios.get(`/api/resume/${skill}`)
+    .then( (response) => {
+      // handle success
+      console.log('success', response.data[0].basics.name);
+      // let name = response.data[0].basics.name;
+      let newMatchingResumes = response.data;
+      this.setState({matchingResumes: newMatchingResumes})
+    })
+    .catch( (error) => {
+      // handle error
+      console.log('error in handleSearch function:', error);
+    })
   }
 
   render () {
@@ -54,11 +77,14 @@ class Recruiting extends React.Component {
     </form>
       <ul>
         {this.state.searchProps.map((item) => (
-          <li>{item}</li>
+          <li id={item} onClick={this.handleRemoveSkill}>{item}</li>
           ))}
       </ul>
 
     <button type="button" onClick={this.handleSearch}>Search</button>
+    {this.state.matchingResumes.map( (resume) => (
+      <h2>{resume.basics.name}</h2>
+    ))}
 
     </div>
     )}
