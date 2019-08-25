@@ -113,3 +113,18 @@ h1 {
   align-items: center;
   background-color: rgb(83, 83, 83);
 }
+
+.recruiter-main-container {
+  display: flex;
+}
+
+.recruiter-sidebar {
+  flex: 2;
+  background-color: #fee;
+  padding: 10px;
+}
+
+.recruiter-focus {
+  flex: 5;
+  padding: 10px;
+}

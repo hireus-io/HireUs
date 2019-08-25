@@ -91,8 +91,10 @@ class Recruiting extends React.Component {
                         handleRemoveSkill={this.handleRemoveSkill}
                         searchProps={this.state.searchProps}
                         handleSearch={this.handleSearch}/>
-      <RecruitingList resumes={this.state.matchingResumes} handleView={this.handleView}/>
-      <RecruitingFocus focusResume={this.state.currentResume}/>
+      <div className='recruiter-main-container'>
+        <RecruitingList className='recruiter-sidebar' resumes={this.state.matchingResumes} handleView={this.handleView}/>
+        <RecruitingFocus className='recruiter-focus' focusResume={this.state.currentResume}/>
+      </div>
     </div>
     );
   }
