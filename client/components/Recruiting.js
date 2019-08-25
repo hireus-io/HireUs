@@ -7,12 +7,15 @@ class Recruiting extends React.Component {
     this.state = { 
       text: '',
       searchProps: [], 
-      matchingResumes: []
+      matchingResumes: [],
+      currentResume: {}
     },
+
     this.handleChange = this.handleChange.bind(this);
     this.handleAddSkill = this.handleAddSkill.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleRemoveSkill = this.handleRemoveSkill.bind(this);
+    this.handleView = this.handleView.bind(this);
   }
 
   handleChange (e) {
@@ -63,6 +66,10 @@ class Recruiting extends React.Component {
     })
   }
 
+  handleView (resume) {
+    this.setState({currentResume: resume});
+  }
+
   render () {
     return (
     <div className='Recruiter'>
@@ -84,7 +91,7 @@ class Recruiting extends React.Component {
     <button type="button" onClick={this.handleSearch}>Search</button>
     {this.state.matchingResumes.map( (resume) => (
       <>
-      <h2>{resume.basics.name}</h2>
+      <h2 onClick={() => (this.handleView(resume))}>{resume.basics.name}</h2>
       <h3>{resume.basics.email}</h3>
       <h3>{resume.basics.phone}</h3>
       </>
