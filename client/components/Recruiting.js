@@ -67,7 +67,7 @@ class Recruiting extends React.Component {
     return (
     <div className='Recruiter'>
 
-    <h1 id="navbar"> Dashboard</h1>
+    <h1 id="navbar">Recruiter Dashboard</h1>
 
     <form id="form" onClick={this.handleAddSkill}>
       <label>
@@ -83,7 +83,11 @@ class Recruiting extends React.Component {
 
     <button type="button" onClick={this.handleSearch}>Search</button>
     {this.state.matchingResumes.map( (resume) => (
+      <>
       <h2>{resume.basics.name}</h2>
+      <h3>{resume.basics.email}</h3>
+      <h3>{resume.basics.phone}</h3>
+      </>
     ))}
 
     </div>
