@@ -127,46 +127,25 @@ app.post('/api/resume', express.json(), (req, res) => {
         res.end();
       });
   });
-
-  // const metadata = JSON.stringify(meta);
-  // const resumedata = JSON.stringify(data);
-  // // console.log(metadata);
-  // // console.log(resumedata);
-  // const formData = new FormData();
-  // const a = path.join(__dirname, '/sample_data/metadata.json')
-  // // const b = path.join(__dirname, '/sample_data/resume.json')
-  // fs.readFile(a, function(err, data) {
-  //   formData.append('data', Buffer.from(data).toString(), 'metadata.json');
-  //   formData.append('cid_63apple', Buffer.from(data).toString(), 'resume.json');
-
-  //   axios({
-  //     "url": 'https://api.yuuvis.io/dms/objects',
-  //     "method": 'POST',
-  //     headers: {
-  //       "Ocp-Apim-Subscription-Key": "",
-  //       "Accept": "application/json"
-  //     },
-  //     data: formData,
-  //   })
-  //     .then((x) => {
-  //       console.log(x);
-  //       res.send(x);
-  //     })
-  //     .catch((e) => {
-  //       console.log('Error:', e);
-  //       res.send('Error');
-  //     });
-  // })
 });
 app.get('/api/resume/:keyword', (req, res) => {
   const { keyword } = req.params;
+  console.log('Keyword')
+  const searches = keyword.split('&');
+  console.log(searches);
+  let searchString = '';
+
+  for (let i = 0; i < searches.length; i++) {
+    searchString += `CONTAINS('${searches[i]}') OR `;
+  }
+  searchString = searchString.substring(0, searchString.length - 4);
   axios({
     url: 'https://api.yuuvis.io/dms/objects/search',
     method: 'POST',
     headers: { 'Ocp-Apim-Subscription-Key': process.env.API_KEY },
     data: {
       query: {
-        statement: `SELECT * FROM enaio:object WHERE CONTAINS('${keyword}')`,
+        statement: `SELECT * FROM enaio:object WHERE ${searchString}`,
       },
     },
   })
