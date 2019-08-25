@@ -85,6 +85,32 @@ class Recruiting extends React.Component {
   render() {
     return (
     <div className='Recruiter'>
+<<<<<<< HEAD
+
+    <h1 id="navbar">Recruiter Dashboard</h1>
+
+    <form id="form" onClick={this.handleAddSkill}>
+      <label>
+        <input id="formtext" type="text" value={this.state.value} onChange={this.handleChange}/>
+      </label>
+      <input type="submit" value="Add Skill"/>
+    </form>
+    <ul>
+      {this.state.searchProps.map((item) => (
+        <li id={item} onClick={this.handleRemoveSkill}>{item}</li>
+      ))}
+    </ul>
+
+    <button type="button" onClick={this.handleSearch}>Search</button>
+    {this.state.matchingResumes.map( (resume) => (
+      <>
+      <h2 onClick={() => (this.handleView(resume))}>{resume.basics.name}</h2>
+      <h3>{resume.basics.email}</h3>
+      <h3>{resume.basics.phone}</h3>
+      </>
+    ))}
+    <RecruitingFocus focusResume={this.state.currentResume}/>
+=======
       <h1 id="navbar">Recruiter Dashboard</h1>
       <RecruitingSearch handleAddSkill={this.handleAddSkill}
                         value={this.state.value}
@@ -96,6 +122,7 @@ class Recruiting extends React.Component {
         <RecruitingList className='recruiter-sidebar' resumes={this.state.matchingResumes} handleView={this.handleView}/>
         <RecruitingFocus className='recruiter-focus' focusResume={this.state.currentResume}/>
       {/* </div> */}
+>>>>>>> 12050938b195cc7ccc6fc79d0fa0f60acdf49a27
     </div>
     );
   }
