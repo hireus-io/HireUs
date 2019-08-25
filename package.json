@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
-    "start:dev": "webpack-dev-server --color ",
+    "start:dev": "webpack-dev-server --color",
     "build": "webpack -w --profile",
     "launch": "npm run build & npm run start",
     "liftoff": "npm run start:dev & npm run build"

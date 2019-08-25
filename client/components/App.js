@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Recruiting from './Recruiting';
 
 import Splash from './Splash';
 import ApplicantForm from './ApplicantForm';
@@ -17,6 +18,13 @@ class App extends Component {
   }
 
   render() {
+    if(this.state.currentPage === 'search'){
+      return (
+        <>
+          <Recruiting />
+        </> 
+      )
+    }
     if (this.state.currentPage === 'home') {
       return (
         <>
