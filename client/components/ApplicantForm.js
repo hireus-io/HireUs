@@ -65,89 +65,107 @@ class ApplicantForm extends Component {
         i += 2;
         newResumeJSON.basics.profiles.push(newProfile);
       } else if (schemaLoc[0] === 'work') {
-        const newWork = {
-          company: entries[i][1],
-          position: entries[i + 1][1],
-          website: entries[i + 2][1],
-          startDate: entries[i + 3][1],
-          endDate: entries[i + 4][1],
-          summary: entries[i + 5][1],
-          highlights: entries[i + 6][1], // TODO this should be an array
-        };
+        if (entries[i][1] && entries[i + 1][1] && entries[i + 2][1] && entries[i + 3][1] && entries[i + 4][1] && entries[i + 5][1] && entries[i + 6][1]) {
+          const newWork = {
+            company: entries[i][1],
+            position: entries[i + 1][1],
+            website: entries[i + 2][1],
+            startDate: entries[i + 3][1] || '1900-01-01',
+            endDate: entries[i + 4][1] || '1900-01-01',
+            summary: entries[i + 5][1],
+            highlights: [entries[i + 6][1]], // TODO this should be an array
+          };
+          newResumeJSON.work.push(newWork);
+        }
         i += 6;
-        newResumeJSON.work.push(newWork);
       } else if (schemaLoc[0] === 'volunteer') {
-        const newVolunteer = {
-          organization: entries[i][1],
-          position: entries[i + 1][1],
-          website: entries[i + 2][1],
-          startDate: entries[i + 3][1],
-          endDate: entries[i + 4][1],
-          summary: entries[i + 5][1],
-          highlights: entries[i + 6][1], // TODO this should be an array
-        };
+        if (entries[i][1] && entries[i + 1][1] && entries[i + 2][1] && entries[i + 3][1] && entries[i + 4][1] && entries[i + 5][1] && entries[i + 6][1]) {
+          const newVolunteer = {
+            organization: entries[i][1],
+            position: entries[i + 1][1],
+            website: entries[i + 2][1],
+            startDate: entries[i + 3][1] || '1900-01-01',
+            endDate: entries[i + 4][1] || '1900-01-01',
+            summary: entries[i + 5][1],
+            highlights: [entries[i + 6][1]], // TODO this should be an array
+          };
+          newResumeJSON.volunteer.push(newVolunteer);
+        }
         i += 6;
-        newResumeJSON.volunteer.push(newVolunteer);
       } else if (schemaLoc[0] === 'education') {
-        const newEducation = {
-          institution: entries[i][1],
-          area: entries[i + 1][1],
-          studyType: entries[i + 2][1],
-          startDate: entries[i + 3][1],
-          endDate: entries[i + 4][1],
-          gpa: entries[i + 5][1],
-          courses: entries[i + 6][1], // TODO this should be an array
-        };
+        if (entries[i][1] && entries[i + 1][1] && entries[i + 2][1] && entries[i + 3][1] && entries[i + 4][1] && entries[i + 5][1] && entries[i + 6][1]) {
+          const newEducation = {
+            institution: entries[i][1],
+            area: entries[i + 1][1],
+            studyType: entries[i + 2][1],
+            startDate: entries[i + 3][1] || '1900-01-01',
+            endDate: entries[i + 4][1] || '1900-01-01',
+            gpa: entries[i + 5][1],
+            courses: [entries[i + 6][1]], // TODO this should be an array
+          };
+          newResumeJSON.education.push(newEducation);
+        }
         i += 6;
-        newResumeJSON.education.push(newEducation);
       } else if (schemaLoc[0] === 'awards') {
-        const newAward = {
-          title: entries[i][1],
-          date: entries[i + 1][1],
-          awarder: entries[i + 2][1],
-          summary: entries[i + 3][1],
-        };
+        if (entries[i][1] && entries[i + 1][1] && entries[i + 2][1] && entries[i + 3][1]) {
+          const newAward = {
+            title: entries[i][1],
+            date: entries[i + 1][1] || '1900-01-01',
+            awarder: entries[i + 2][1],
+            summary: entries[i + 3][1],
+          };
+          newResumeJSON.awards.push(newAward);
+        }
         i += 3;
-        newResumeJSON.awards.push(newAward);
       } else if (schemaLoc[0] === 'publications') {
-        const newPublication = {
-          name: entries[i][1],
-          publisher: entries[i + 1][1],
-          releaseDate: entries[i + 2][1],
-          website: entries[i + 3][1],
-          summary: entries[i + 4][1],
-        };
+        if (entries[i][1] && entries[i + 1][1] && entries[i + 2][1] && entries[i + 3][1] && entries[i + 4][1]) {
+          const newPublication = {
+            name: entries[i][1],
+            publisher: entries[i + 1][1],
+            releaseDate: entries[i + 2][1],
+            website: entries[i + 3][1],
+            summary: entries[i + 4][1],
+          };
+          newResumeJSON.publications.push(newPublication);
+        }
         i += 4;
-        newResumeJSON.publications.push(newPublication);
       } else if (schemaLoc[0] === 'skills') {
-        const newSkill = {
-          name: entries[i][1],
-          level: entries[i + 1][1],
-          keywords: entries[i + 2][1], // TODO this should be an array
-        };
-        i += 2;
-        newResumeJSON.skills.push(newSkill);
+        if (entries[i][1] && entries[i + 1][1] && entries[i + 2][1]) {
+          const newSkill = {
+            name: entries[i][1],
+            level: entries[i + 1][1],
+            keywords: [entries[i + 2][1]], // TODO this should be an array
+          };
+          newResumeJSON.skills.push(newSkill);
+          i += 2;
+        }
       } else if (schemaLoc[0] === 'languages') {
-        const newLanguage = {
-          language: entries[i][1],
-          fluency: entries[i + 1][1],
-        };
+        if (entries[i][1] && entries[i + 1][1]) {
+          const newLanguage = {
+            language: entries[i][1],
+            fluency: entries[i + 1][1],
+          };
+          newResumeJSON.languages.push(newLanguage);
+        }
         i += 1;
-        newResumeJSON.languages.push(newLanguage);
       } else if (schemaLoc[0] === 'interests') {
-        const newInterest = {
-          name: entries[i][1],
-          keywords: entries[i + 1][1], // TOOD this should be an array
-        };
+        if (entries[i][1] && entries[i + 1][1]) {
+          const newInterest = {
+            name: entries[i][1],
+            keywords: [entries[i + 1][1]], // TOOD this should be an array
+          };
+          newResumeJSON.interests.push(newInterest);
+        }
         i += 1;
-        newResumeJSON.interests.push(newInterest);
       } else if (schemaLoc[0] === 'references') {
-        const newReference = {
-          name: entries[i][1],
-          reference: entries[i + 1][1],
-        };
+        if (entries[i][1] && entries[i + 1][1]) {
+          const newReference = {
+            name: entries[i][1],
+            reference: entries[i + 1][1],
+          };
+          newResumeJSON.references.push(newReference);
+        }
         i += 1;
-        newResumeJSON.references.push(newReference);
       } else if (schemaLoc[0] === 'keywords') {
         keywords = pair[1];
       }
@@ -157,9 +175,10 @@ class ApplicantForm extends Component {
       email: newResumeJSON.basics.email,
       resume: newResumeJSON,
       keywords,
+      responseType: 'blob',
     })
       .then(() => {
-        // this.props.changePage(e, 'home');
+        window.open('/api/download/resume');
       });
   }
 

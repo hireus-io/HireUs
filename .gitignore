@@ -9,3 +9,4 @@ package-lock.json
 .vscode
 resume.pdf
 resume.json
+**/resume*
