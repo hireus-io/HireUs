@@ -7,5 +7,4 @@ dist
 coverage
 package-lock.json
 .vscode
-resume.json
-resume.pdf
+**/resume*

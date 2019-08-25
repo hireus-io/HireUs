@@ -84,6 +84,10 @@ app.use(require('morgan')('dev')); // Logs all inbound requests to console
 
 app.use(express.static('dist'));
 
+// app.post('/api/resume', (req, res) => {
+
+// });
+
 app.get('/api/download/resume', (req, res) => {
   res.download('resume.pdf', 'resume.pdf');
 });
@@ -103,12 +107,18 @@ app.post('/api/resume', express.json(), (req, res) => {
   resume = JSON.stringify(resume);
   fs.writeFile(path.join(__dirname, '/resume.json'), resume, (err) => {
     if (err) throw err;
+    const key = process.env.API_KEY;
+    const baseUrl = 'https://api.yuuvis.io/';
+    const doc_name = 'resume.json';
     const doc_fileName = path.join(__dirname, '/resume.json');
     const cid = 'cid_63apple';
     const doc_mimeType = 'application/json';
     const requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
 
     executeRequest(requestObject);
+  });
+
+  fs.writeFile('resume.json', JSON.stringify(req.body.resume, null, 2), () => {
     exec('resume export resume.pdf')
       .then(() => {
         res.download('resume.pdf', 'resume.pdf');
