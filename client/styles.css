@@ -40,22 +40,22 @@ h1 {
 }
 
 .inputSection {
-  width: 25vw;
   margin: 20px;
   padding-right: 20px;
-  display: grid;
+  display: flex;
   grid-template-columns: 1fr 1fr;
   align-items: center;
 }
 
 
-.inputSection input {
+.inputSection .input {
   height: 35px;
-  width: 200px;
+  width: 25vw;
   font-size: 1.2em;
 }
 
-.label {
+.inputSection .label {
+  width: 11vw;
   justify-self: flex-end;
   margin-right: 12px;
   font-size: 1.6em;
