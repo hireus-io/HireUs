@@ -1,10 +1,51 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
-
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 import BasicInput from './BasicFormInput';
 import ComplexInput from './ComplexFormInput';
 import MultipleComplex from './MultipleComplexInput';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+  dense: {
+    marginTop: 19,
+  },
+  menu: {
+    width: 200,
+  },
+}));
+
+const currencies = [
+  {
+    value: 'USD',
+    label: '$',
+  },
+  {
+    value: 'EUR',
+    label: '€',
+  },
+  {
+    value: 'BTC',
+    label: '฿',
+  },
+  {
+    value: 'JPY',
+    label: '¥',
+  },
+];
 
 class ApplicantForm extends Component {
   constructor(props) {
@@ -40,6 +81,8 @@ class ApplicantForm extends Component {
       },
     };
   }
+
+
 
   handleSubmit(e) {
     e.preventDefault();
@@ -163,6 +206,9 @@ class ApplicantForm extends Component {
       });
   }
 
+  //Justan new
+  
+
   render() {
     return (
       <>
@@ -173,7 +219,7 @@ class ApplicantForm extends Component {
           <span className={'inputSectionTitle'}>{'Basic Information'}</span>
           <BasicInput info={{
             name: 'basics_name', schemaName: 'name', displayName: 'Name:', placeholder: '', parent: 'basics',
-          }} />
+            }} />
           <BasicInput info={{
             name: 'basics_label', schemaName: 'label', displayName: 'Job Title:', placeholder: '', parent: 'basics',
           }} />
@@ -358,6 +404,316 @@ class ApplicantForm extends Component {
           <BasicInput info={{ name: 'keywords_keywords', displayName: 'Keywords', placeholder: 'Seperate by commas' }}/>
           <input className={'formSubmit'} type={'submit'} onClick={this.handleSubmit.bind(this)}></input>
         </form>
+
+<div >
+        <form  noValidate autoComplete="off">
+        <span className={'inputSectionTitle'}>{'Basic Information'}</span>
+        <br></br>
+      <TextField
+        id="standard-name"
+        label="Name"
+        margin="normal"
+        />
+      <TextField
+        id="standard-name"
+        label="Job Title"
+        margin="normal"
+        />
+      <TextField
+        id="standard-name"
+        label="Picture"
+        margin="normal"
+        />
+      <TextField
+        id="standard-name"
+        label="Picture"
+        margin="normal"
+        />
+      <TextField
+        id="standard-name"
+        label="Email"
+        margin="normal"
+        />
+              <TextField
+        id="standard-name"
+        label="Phone Number"
+        margin="normal"
+        />
+              <TextField
+        id="standard-name"
+        label="Personal Website"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="Summary"
+        margin="normal"
+        />
+        <br></br>
+                  <span className={'inputSectionTitle'}>{'Location'}</span>
+                  <br></br>
+                      <TextField
+        id="standard-name"
+        label="Address"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="Zipcode"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="City"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="Country"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="State"
+        margin="normal"
+        />
+        <br></br>
+        <span className={'inputSectionTitle'}>{'Social Links'}</span>
+        <br></br>
+                      <TextField
+        id="standard-name"
+        label="NetWork"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="Username"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="Link"
+        margin="normal"
+        />
+        <br></br>
+        <Button >Add another Social Links</Button>
+        <br></br>
+        <span className={'inputSectionTitle'}>{'Work Experience'}</span>
+        <br></br>
+                      <TextField
+        id="standard-name"
+        label="Company"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="Position"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="Website"
+        margin="normal"
+        />
+                              <TextField
+        id="standard-name"
+        label="Start Date"
+        margin="normal"
+        />
+                              <TextField
+        id="standard-name"
+        label="End Date"
+        margin="normal"
+        />
+                              <TextField
+        id="standard-name"
+        label="Summary"
+        margin="normal"
+        />
+                              <TextField
+        id="standard-name"
+        label="Highlights"
+        margin="normal"
+        />
+        <br></br>
+        <span className={'inputSectionTitle'}>{'Volunteer Experience'}</span>
+        <br></br>
+        <TextField
+        id="standard-name"
+        label="Company"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="Position"
+        margin="normal"
+        />
+                      <TextField
+        id="standard-name"
+        label="Website"
+        margin="normal"
+        />
+                              <TextField
+        id="standard-name"
+        label="Start Date"
+        margin="normal"
+        />
+                              <TextField
+        id="standard-name"
+        label="End Date"
+        margin="normal"
+        />
+                              <TextField
+        id="standard-name"
+        label="Summary"
+        margin="normal"
+        />
+                              <TextField
+        id="standard-name"
+        label="Highlights"
+        margin="normal"
+        />
+        <br></br>
+        <span className={'inputSectionTitle'}>{'Education'}</span>
+        <br></br>
+        <TextField
+        id="standard-name"
+        label="Institution"
+        margin="normal"
+        />
+                <TextField
+        id="standard-name"
+        label="Area of Learning"
+        margin="normal"
+        />
+                <TextField
+        id="standard-name"
+        label="Education Level"
+        margin="normal"
+        />
+                <TextField
+        id="standard-name"
+        label="Start Date"
+        margin="normal"
+        />
+                <TextField
+        id="standard-name"
+        label="End Date"
+        margin="normal"
+        />
+                <TextField
+        id="standard-name"
+        label="GPA"
+        margin="normal"
+        />
+                <TextField
+        id="standard-name"
+        label="Courses"
+        margin="normal"
+        />
+        <br></br>
+        <span className={'inputSectionTitle'}>{'Awards'}</span>
+        <br></br>
+        <TextField
+        id="standard-name"
+        label="Title"
+        margin="normal"
+        />
+                        <TextField
+        id="standard-name"
+        label="Date"
+        margin="normal"
+        />
+                                <TextField
+        id="standard-name"
+        label="Awarder"
+        margin="normal"
+        />
+                                <TextField
+        id="standard-name"
+        label="Summary"
+        margin="normal"
+        />
+        <br></br>
+        <span className={'inputSectionTitle'}>{'Published Work'}</span>
+        <br></br>
+        <TextField
+        id="standard-name"
+        label="Name"
+        margin="normal"
+        />
+                                        <TextField
+        id="standard-name"
+        label="Publisher"
+        margin="normal"
+        />
+                                        <TextField
+        id="standard-name"
+        label="Release Date"
+        margin="normal"
+        />
+                                        <TextField
+        id="standard-name"
+        label="Website"
+        margin="normal"
+        />
+                                        <TextField
+        id="standard-name"
+        label="Summary"
+        margin="normal"
+        />
+        <br></br>
+        <span className={'inputSectionTitle'}>{'Skills'}</span>
+        <br></br>
+        <TextField
+        id="standard-name"
+        label="Name"
+        margin="normal"
+        />
+                                                <TextField
+        id="standard-name"
+        label="Level"
+        margin="normal"
+        />
+                                                <TextField
+        id="standard-name"
+        label="Keywords"
+        margin="normal"
+        />
+        <button>Add another Skill</button>
+        <br></br>
+        <span className={'inputSectionTitle'}>{'Languages'}</span>
+        <br></br>
+        <TextField
+        id="standard-name"
+        label="Other Interests"
+        margin="normal"
+        />
+        <br></br>
+        <span className={'inputSectionTitle'}>{'References'}</span>
+        <br></br>
+        <TextField
+        id="standard-name"
+        label="Name"
+        margin="normal"
+        />
+                <TextField
+        id="standard-name"
+        label="Contact Info"
+        margin="normal"
+        />
+        <Button>Add another Reference</Button>
+        <br></br>
+        <span className={'inputSectionTitle'}>{'Keywords'}</span>
+        <br></br>
+        <TextField
+        id="standard-name"
+        label="Seperate by commas"
+        margin="normal"
+        />
+        </form>
+        </div>
+
       </>
     );
   }
