@@ -186,7 +186,7 @@ class ApplicantForm extends Component {
     return (
       <>
         <header className={'header'}>
-          <h1>Build Your Resume</h1>
+          <h1 onClick={e => this.props.changePage(e, 'home')}>Build Your Resume</h1>
         </header>
         <form id={'applicantForm'}>
           <span className={'inputSectionTitle'}>{'Basic Information'}</span>

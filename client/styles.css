@@ -23,6 +23,7 @@ h1 {
 }
 
 .header {
+  /* grid-column: 1 / -1; */
   font-family: 'Teko', sans-serif;
   background-color: #213b91;
   height: 10vh;
@@ -31,6 +32,10 @@ h1 {
   align-items: center;
   color: white;
   font-size: 1.4em;
+}
+
+.header h1:hover {
+  cursor: pointer;
 }
 
 #applicantForm {
@@ -89,12 +94,7 @@ h1 {
 
 .splash {
   width: 100vw;
-  height: 100vh;
-  
-  /* display: flex; */
-  /* flex-direction: column;
-  justify-content: center;
-  align-items: center; */
+  height: 90vh;
 
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -142,15 +142,6 @@ h1 {
   color: black;
 }
 
-
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 75px;
-  width: 100vw;
-}
-
 .footer {
   position: fixed;
   bottom: 0;
@@ -161,56 +152,15 @@ h1 {
   font-size: 1.3em;
 }
 
-/* .splashLeft {
-  width: 50vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(104, 104, 104);
-} */
-
 .splashItem:hover {
   cursor: pointer;
   background-color: #707070;
 }
 
-/* .splashRight {
-  width: 50vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(83, 83, 83);
-} */
-
-/* .recruiter-main-container {
-  display: flex;
-} */
-
-/* .recruiter-sidebar {
-  flex: 2;
-  background-color: #fee;
-  padding: 10px;
-} */
-
-/* .recruiter-focus {
-  flex: 5;
-  padding: 10px;
-} */
-
 .Recruiter {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
 
-}
-
-#navbar {
-  grid-column: 1 / -1;
-  background-color: #213b91;
-  color: white;
-  text-align: left;
-  padding-left: 20px;
 }
 
 .recruiterSearch {
@@ -244,10 +194,9 @@ h1 {
   color: black;
 }
 
-/* #formtext:focus {
+#formtext:focus {
   background-color: rgb(104, 247, 247);
-
-} */
+}
 
 .recruiterSkills {
   grid-column: 1 / -1;
@@ -256,7 +205,8 @@ h1 {
 }
 
 .recruiterSkills li {
-  font-size: 25px;
+  font-size: 35px;
+  list-style-type: none;
 }
 
 .recruiterSkills li:hover {

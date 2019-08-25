@@ -21,7 +21,7 @@ class App extends Component {
     if (this.state.currentPage === 'search') {
       return (
         <>
-          <Recruiting />
+          <Recruiting changePage={this.changePage.bind(this)}/>
         </>
       );
     }
