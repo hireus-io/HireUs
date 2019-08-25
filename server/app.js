@@ -3,23 +3,13 @@ const axios = require('axios');
 const FormData = require('form-data');
 const meta = require('./sample_data/meta');
 const data = require('./sample_data/data');
-//const fs = require("fs");
 const path = require("path");
-// const metadata = require("./sample_data/metadata.json");
-// const resume = require("./sample_data/resume.json");
 const request = require('request');
-
 const fs = require('fs');
 
-let key = '';
-let baseUrl = 'https://api.yuuvis.io/';
+require('dotenv').config();
 
-let doc_name = 'resume.json';
-let doc_filename = path.join(__dirname, '/resume.json');
-let cid = 'cid_63apple';
-let doc_mimeType = 'application/json';
-
-function createDocumentMetadata(doc_title, doc_fileName, cid, doc_contentType) {
+function createDocumentMetadata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType) {
   return {
     objects: [
       {
@@ -28,10 +18,10 @@ function createDocumentMetadata(doc_title, doc_fileName, cid, doc_contentType) {
             'value': 'resume',
           },
           'email': {
-            'value': "testing@gmail.com",
+            'value': doc_email,
           },
           'keywords': {
-            'value': "testing@gmail.com",
+            'value': doc_keywords,
           }
         },
         contentStreams: [{
@@ -44,10 +34,12 @@ function createDocumentMetadata(doc_title, doc_fileName, cid, doc_contentType) {
   };
 }
 
-function createImportFormdata(doc_title, doc_fileName, cid, doc_contentType) {
+function createImportFormdata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType) {
+  const meta = JSON.stringify(createDocumentMetadata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType))
+  console.log(meta);
   let formData = {};
   formData.data = {
-    value: JSON.stringify(createDocumentMetadata(doc_title, doc_fileName, cid, doc_contentType)),
+    value: meta,
     options: {
       contentType: 'application/json',
     },
@@ -62,20 +54,19 @@ function createImportFormdata(doc_title, doc_fileName, cid, doc_contentType) {
   return formData;
 }
 
-function createRequest(doc_title, doc_fileName, cid, doc_contentType) {
+function createRequest(doc_email, doc_keywords, doc_fileName, cid, doc_contentType) {
+  let baseUrl = 'https://api.yuuvis.io/';
   return {
     method: 'POST',
     uri: `${baseUrl}dms/objects/`,
     headers: {
       Accept: 'application/json',
-      'Ocp-Apim-Subscription-Key': key,
+      'Ocp-Apim-Subscription-Key': process.env.API_KEY,
     },
-    formData: createImportFormdata(doc_title, doc_fileName, cid, doc_contentType),
+    formData: createImportFormdata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType),
   };
 }
 
-
-let requestObject = createRequest(doc_name, doc_filename, cid, doc_mimeType);
 
 function executeRequest(request_object) {
   request.post(request_object, (err, httpResponse, body) => {
@@ -105,8 +96,20 @@ app.use(express.static('dist'));
 
 */
 app.post('/api/resume', express.json(), (req, res) => {
+  let { email, keywords, resume } = req.body;
+  //we need to add a function that writes to resume.json
+  console.log('Resume: ', JSON.stringify(resume));
+  
+  let key = process.env.API_KEY;
+  let baseUrl = 'https://api.yuuvis.io/';
+  let doc_name = 'resume.json';
+  let doc_fileName = path.join(__dirname, '/resume.json');
+  let cid = 'cid_63apple';
+  let doc_mimeType = 'application/json';
+  let requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
 
   executeRequest(requestObject);
+  res.send();
   // const metadata = JSON.stringify(meta);
   // const resumedata = JSON.stringify(data);
   // // console.log(metadata);
@@ -137,26 +140,26 @@ app.post('/api/resume', express.json(), (req, res) => {
   //     });
   // })
 });
-// app.post('/api/resume/search', (req, res) => {
-//   axios({
-//     "url": "https://api.yuuvis.io/dms/objects/search",
-//     "method": "POST",
-//     headers: {
-//       "Ocp-Apim-Subscription-Key": ""},
-//     data: {
-//       "query": {
-//         "statement": "SELECT * FROM enaio:object WHERE CONTAINS('programming')"
-//       }
-//     }
-//   })
-//   .then((response) => {
-//     console.log(response);
-//     res.send('Success');
-//   })
-//   .catch((error) => {
-//     console.log('Error: ', error);
-//     res.send('');
-//   })
-// })
+app.post('/api/resume/search', (req, res) => {
+  axios({
+    "url": "https://api.yuuvis.io/dms/objects/search",
+    "method": "POST",
+    headers: {
+      "Ocp-Apim-Subscription-Key": process.env.API_KEY},
+    data: {
+      "query": {
+        "statement": "SELECT * FROM enaio:object WHERE CONTAINS('programming')"
+      }
+    }
+  })
+  .then((response) => {
+    console.log(response);
+    res.send('Success');
+  })
+  .catch((error) => {
+    console.log('Error: ', error);
+    res.send('');
+  })
+})
 
 module.exports = app;
