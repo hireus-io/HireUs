@@ -1,5 +1,7 @@
 import React from 'react';
 import RecruitingFocus from './RecruitingFocus';
+import RecruitingList from './RecruitingList';
+import RecruitingSearch from './RecruitingSearch';
 const axios = require('axios');
 
 class Recruiting extends React.Component {
@@ -82,32 +84,18 @@ class Recruiting extends React.Component {
   render () {
     return (
     <div className='Recruiter'>
-
-    <h1 id="navbar">Recruiter Dashboard</h1>
-
-    <form id="form" onClick={this.handleAddSkill}>
-      <label>
-        <input id="formtext" type="text" value={this.state.value} onChange={this.handleChange}/>
-      </label>
-      <input type="submit" value="Add Skill"/>
-    </form>
-      <ul>
-        {this.state.searchProps.map((item) => (
-          <li id={item} onClick={this.handleRemoveSkill}>{item}</li>
-          ))}
-      </ul>
-
-    <button type="button" onClick={this.handleSearch}>Search</button>
-    {this.state.matchingResumes.map( (resume) => (
-      <>
-      <h2 onClick={() => (this.handleView(resume))}>{resume.basics.name}</h2>
-      <h3>{resume.basics.email}</h3>
-      <h3>{resume.basics.phone}</h3>
-      </>
-    ))}
-    <RecruitingFocus focusResume={this.state.currentResume}/>
+      <h1 id="navbar">Recruiter Dashboard</h1>
+      <RecruitingSearch handleAddSkill={this.handleAddSkill}
+                        value={this.state.value}
+                        handleChange={this.handleChange}
+                        handleRemoveSkill={this.handleRemoveSkill}
+                        searchProps={this.state.searchProps}
+                        handleSearch={this.handleSearch}/>
+      <RecruitingList resumes={this.state.matchingResumes} handleView={this.handleView}/>
+      <RecruitingFocus focusResume={this.state.currentResume}/>
     </div>
-    )}
+    );
+  }
 }
 
 export default Recruiting;
