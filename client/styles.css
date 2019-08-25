@@ -197,4 +197,12 @@ h1 {
 .recruiter-focus {
   flex: 5;
   padding: 10px;
+  background-color: #eee;
+}
+
+.recruiter-focus-header {
+  font-size: 22px;
+}
+.recruiter-focus-title {
+  font-size: 18px;
 }
