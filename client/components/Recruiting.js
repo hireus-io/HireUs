@@ -52,8 +52,16 @@ class Recruiting extends React.Component {
     // filter resumes using skills in searchProps
     // Add filtered resumes to matching resumes array
     // Display resumes on page
-    let skill = this.state.searchProps[0];
-    axios.get(`/api/resume/${skill}`)
+    let skills = '';
+    for(let i = 0; i < this.state.searchProps.length; i++){
+      if(i === this.state.searchProps.length - 1){
+        skills += this.state.searchProps[i];
+      } else {
+        skills += this.state.searchProps[i] + '&';
+      }
+    }
+    console.log(skills);
+    axios.get(`/api/resume/${skills}`)
     .then( (response) => {
       // handle success
       console.log('success', response.data[0].basics.name);
