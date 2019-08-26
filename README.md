@@ -17,9 +17,10 @@ Optimize the hiring process for applicants and recruiters.
 
 ## Setup
 To run this project, install it locally using npm:
+```
 $ npm run build
 $ npm run start
-
+```
 
 ## Credits
 
