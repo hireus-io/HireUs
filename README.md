@@ -1,4 +1,4 @@
-# Team 6 Yuvvis Hackathon - First place winners!
+# Team 6 Yuvvis Hackathon - Grand Prize winners!
 https://yuuvishackathonaustin.bemyapp.com/
 
 Team "Hire us"
