@@ -12,7 +12,8 @@ https://yuuvishackathonaustin.bemyapp.com/
 ## Motivation
 Optimize the hiring process for applicants and recruiters.
 
-## Tech used: Javascript, React, Node, Express, Axios, Yuuvis API, JSON resume protocol.
+## Tech used: 
+### Javascript, React, Node, Express, Axios, Yuuvis API, JSON resume protocol.
 
 ## Installation
 
