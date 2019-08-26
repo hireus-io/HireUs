@@ -16,8 +16,9 @@ Optimize the hiring process for applicants and recruiters.
 ### Javascript, React, Node, Express, Axios, Yuuvis API, JSON resume protocol.
 
 ## Setup
-To run this project, install it locally using npm:
+To run this project:
 ```
+$ npm install
 $ npm run build
 $ npm run start
 ```
