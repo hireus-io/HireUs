@@ -1,13 +1,23 @@
-# Team 6 Yuvvis Hackathon - Grand Prize winners!
+# Yuvvis Hackathon - Grand Prize winning project!
 https://yuuvishackathonaustin.bemyapp.com/
 
-Team "Hire us"
-Members: Chad Cramer, Jarrod Miller, Nick Miron, and Justan Human.
+## Team "Hire us" 
 
-Project: 
-Category: Sharing and Collaboration
-Goal: Optimize the hiring process for applicants and recruiters.
-Technology used: Javascript, React, Node, Express, Axios, Yuuvis API, JSON resume protocol.
+## Members: 
+* Chad Cramer
+* Jarrod Miller
+* Nick Miron
+* Justan Human.
+
+## Motivation
+Optimize the hiring process for applicants and recruiters.
+
+## Tech used: Javascript, React, Node, Express, Axios, Yuuvis API, JSON resume protocol.
+
+## Installation
+
+## Credits
+
  The Issue:
 For Applicants: Resume creation is a time consuming, process that should be simplified to focus on what’s important. Not the styling. Recruiters have an influx of resumes, an efficient process to parse through those documents will save them a ton of time and allow them to identify qualified applicants.
 Our solution:
