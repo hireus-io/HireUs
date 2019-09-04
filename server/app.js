@@ -119,7 +119,7 @@ app.post('/api/resume', express.json(), (req, res) => {
   });
 
   fs.writeFile('resume.json', JSON.stringify(req.body.resume, null, 2), () => {
-    exec('resume export resume.pdf')
+    exec('resume export resume.pdf  --theme kendall ')
       .then(() => {
         res.download('resume.pdf', 'resume.pdf');
       })
