@@ -161,7 +161,14 @@ app.get('/api/resume/:keyword', (req, res) => {
       });
       Promise.all(promises)
         .then((results) => {
-          const resumes = results.map(result => result.data);
+          const resumes = results.map(result => {
+            let resume = result.data;
+            console.log(result.request.path);
+            let objectId = result.request.path.split('/')[3];
+            console.log('objectId:', objectId);
+            resume["objectId"] = objectId;
+            return resume;
+          });
           res.send(resumes);
         })
         .catch((err) => {
@@ -175,4 +182,26 @@ app.get('/api/resume/:keyword', (req, res) => {
     });
 });
 
+app.post('/api/resumeupdate', express.json(), (req, res) => {
+  let { email, keywords, resume, objectId } = req.body;
+  console.log('Hello!, You are here');
+  // we need to add a function that writes to resume.json
+  resume = JSON.stringify(resume);
+  fs.writeFile(path.join(__dirname, '/resume.json'), resume, (err) => {
+    if (err) throw err;
+    const key = process.env.API_KEY;
+    const baseUrl = 'https://api.yuuvis.io/';
+    const doc_name = 'resume.json';
+    const doc_fileName = path.join(__dirname, '/resume.json');
+    const cid = 'cid_63apple';
+    const doc_mimeType = 'application/json';
+    const requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
+    const headers = { headers: { 'Ocp-Apim-Subscription-Key': process.env.API_KEY } };
+    executeRequest(requestObject);
+    axios.delete(`https://api.yuuvis.io/dms/objects/${objectId}`, headers)
+    console.log('Deleted');
+    res.send(201);
+
+  });
+});
 module.exports = app;
