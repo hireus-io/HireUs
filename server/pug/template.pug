@@ -5,6 +5,22 @@ html
     style
       include style.css
   body
-    h1 My Site
-    p Welcome to my super awesome website.
-    p #{name}'s Pug source code!
+    div
+      h1 #{resume.basics.name}
+      p #{resume.basics.label}
+      p #{resume.basics.email}
+      p #{resume.basics.phone}
+      p #{resume.basics.website}
+    div
+      h1 Work Experience
+      each job in resume.work
+        p=job.company
+        p=job.position
+    div
+      h1 Education Experience
+      each school in resume.education
+        p=school.institution
+        p=school.area
+        p=school.studyType
+        p=school.startDate
+        p=school.endDate

@@ -143,7 +143,7 @@ app.post('/api/puppeteer', express.json(), (req, res) => {
   (async () => {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
-    const html = compiledFunction({name: resume.basics.name});
+    const html = compiledFunction({resume});
     console.log(html);
     await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle2' })
     const buffer = await page.pdf({format: 'A4'})
