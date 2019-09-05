@@ -5,6 +5,10 @@ const fs = require('fs');
 const axios = require('axios');
 const path = require('path');
 const request = require('request');
+const pug = require('pug');
+const puppeteer = require('puppeteer');
+console.log(path.join(__dirname, '/pug/template.pug'));
+const compiledFunction = pug.compileFile(path.join(__dirname + '/pug/template.pug'))
 
 require('dotenv').config();
 
@@ -128,6 +132,27 @@ app.post('/api/resume', express.json(), (req, res) => {
       });
   });
 });
+
+app.get('/api/pug', (req, res) => {
+  res.send(compiledFunction({name: 'Timothy'}));
+})
+
+app.post('/api/puppeteer', express.json(), (req, res) => {
+  const resume = req.body.resume;
+  console.log('Req body: ', req.body);
+  (async () => {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    const html = compiledFunction({name: resume.basics.name});
+    console.log(html);
+    await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle2' })
+    const buffer = await page.pdf({format: 'A4'})
+    res.type('application/pdf')
+    res.send(buffer)
+    browser.close()
+  })()
+})
+
 app.get('/api/resume/:keyword', (req, res) => {
   const { keyword } = req.params;
   console.log('Keyword')
