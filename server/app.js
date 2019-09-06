@@ -125,11 +125,10 @@ app.post('/api/resume', express.json(), (req, res) => {
     const requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
 
     executeRequest(requestObject);
-
   });
 
   fs.writeFile('resume.json', JSON.stringify(req.body.resume, null, 2), () => {
-    exec('resume export resume.pdf')
+    exec('resume export resume.pdf  --theme kendall ')
       .then(() => {
         res.download('resume.pdf', 'resume.pdf');
       })
@@ -137,40 +136,6 @@ app.post('/api/resume', express.json(), (req, res) => {
         res.end();
       });
   });
-
-  // const metadata = JSON.stringify(meta);
-  // const resumedata = JSON.stringify(data);
-  // // console.log(metadata);
-  // // console.log(resumedata);
-  // const formData = new FormData();
-  // const a = path.join(__dirname, '/sample_data/metadata.json')
-  // // const b = path.join(__dirname, '/sample_data/resume.json')
-  // fs.readFile(a, function(err, data) {
-  //   formData.append('data', Buffer.from(data).toString(), 'metadata.json');
-  //   formData.append('cid_63apple', Buffer.from(data).toString(), 'resume.json');
-
-  //   axios({
-  //     "url": 'https://api.yuuvis.io/dms/objects',
-  //     "method": 'POST',
-  //     headers: {
-  //       "Ocp-Apim-Subscription-Key": "",
-  //       "Accept": "application/json"
-  //     },
-  //     data: formData,
-  //   })
-  //     .then((x) => {
-  //       console.log(x);
-  //       res.send(x);
-  //     })
-  //     .catch((e) => {
-  //       console.log('Error:', e);
-  //       res.send('Error');
-  //     });
-  // })
-
-
-
-
 });
 
 app.get('/auth/linkedin',
@@ -199,15 +164,17 @@ app.get('/api/resume/:keywords', (req, res) => {
     searchString += `CONTAINS('${searches[i]}') OR `;
   }
   searchString = searchString.substring(0, searchString.length - 4);
-  console.log(searchString);
-
   axios({
     url: 'https://api.yuuvis.io/dms/objects/search',
     method: 'POST',
     headers: { 'Ocp-Apim-Subscription-Key': process.env.API_KEY },
     data: {
       query: {
+<<<<<<< HEAD
         statement: `SELECT * FROM enaio:object WHERE CONTAINS('${searchString}')`,
+=======
+        statement: `SELECT * FROM enaio:object WHERE ${searchString}`,
+>>>>>>> c932fca7f6e80d825902945afdd62323e6e93f07
       },
     },
   })
@@ -223,7 +190,14 @@ app.get('/api/resume/:keywords', (req, res) => {
       });
       Promise.all(promises)
         .then((results) => {
-          const resumes = results.map(result => result.data);
+          const resumes = results.map(result => {
+            let resume = result.data;
+            console.log(result.request.path);
+            let objectId = result.request.path.split('/')[3];
+            console.log('objectId:', objectId);
+            resume["objectId"] = objectId;
+            return resume;
+          });
           res.send(resumes);
         })
         .catch((err) => {
@@ -237,4 +211,26 @@ app.get('/api/resume/:keywords', (req, res) => {
     });
 });
 
+app.post('/api/resumeupdate', express.json(), (req, res) => {
+  let { email, keywords, resume, objectId } = req.body;
+  console.log('Hello!, You are here');
+  // we need to add a function that writes to resume.json
+  resume = JSON.stringify(resume);
+  fs.writeFile(path.join(__dirname, '/resume.json'), resume, (err) => {
+    if (err) throw err;
+    const key = process.env.API_KEY;
+    const baseUrl = 'https://api.yuuvis.io/';
+    const doc_name = 'resume.json';
+    const doc_fileName = path.join(__dirname, '/resume.json');
+    const cid = 'cid_63apple';
+    const doc_mimeType = 'application/json';
+    const requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
+    const headers = { headers: { 'Ocp-Apim-Subscription-Key': process.env.API_KEY } };
+    executeRequest(requestObject);
+    axios.delete(`https://api.yuuvis.io/dms/objects/${objectId}`, headers)
+    console.log('Deleted');
+    res.send(201);
+
+  });
+});
 module.exports = app;
