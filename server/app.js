@@ -170,11 +170,7 @@ app.get('/api/resume/:keywords', (req, res) => {
     headers: { 'Ocp-Apim-Subscription-Key': process.env.API_KEY },
     data: {
       query: {
-<<<<<<< HEAD
         statement: `SELECT * FROM enaio:object WHERE CONTAINS('${searchString}')`,
-=======
-        statement: `SELECT * FROM enaio:object WHERE ${searchString}`,
->>>>>>> c932fca7f6e80d825902945afdd62323e6e93f07
       },
     },
   })
