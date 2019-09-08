@@ -1,7 +1,37 @@
-p {
-  color: red;
-}
+
 
 body {
-  background-color: blue;
+  background-color: #eee;
+  width: 20.59cm;
+  height: 27.94cm;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  background-color: #fee;
+  align-items: center;
+  color: black;
+}
+
+.header:after {
+  content: "";
+  display: block;
+  margin: 0 autho;
+  width: 80%;
+  padding-top: 20px;
+  border-bottom: 1px solid black;
+}
+
+.name {
+  margin: 10px;
+}
+
+.basics {
+  margin: 0px;
+}
+
+.section {
+  padding-left: 10%;
 }

@@ -7,10 +7,14 @@ const path = require('path');
 const request = require('request');
 const pug = require('pug');
 const puppeteer = require('puppeteer');
-console.log(path.join(__dirname, '/pug/template.pug'));
 const compiledFunction = pug.compileFile(path.join(__dirname + '/pug/template.pug'))
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+const verifyUser = require('./Middleware/verifyUser');
+const sample_data = require('./pug/sample_data');
 
 require('dotenv').config();
+require('./db/config');
 
 function createDocumentMetadata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType) {
   return {
@@ -85,9 +89,14 @@ const exec = util.promisify(cp.exec);
 
 const app = express();
 app.use(require('morgan')('dev')); // Logs all inbound requests to console
-
 app.use(express.static('dist'));
-
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.COOKIE_SESSION]
+}))
+require('./auth');
+app.use(passport.initialize());
+app.use(passport.session());
 // app.post('/api/resume', (req, res) => {
 
 // });
@@ -123,7 +132,7 @@ app.post('/api/resume', express.json(), (req, res) => {
   });
 
   fs.writeFile('resume.json', JSON.stringify(req.body.resume, null, 2), () => {
-    exec('resume export resume.pdf')
+    exec('resume export resume.pdf  --theme kendall ')
       .then(() => {
         res.download('resume.pdf', 'resume.pdf');
       })
@@ -134,7 +143,9 @@ app.post('/api/resume', express.json(), (req, res) => {
 });
 
 app.get('/api/pug', (req, res) => {
-  res.send(compiledFunction({name: 'Timothy'}));
+  //res.send(compiledFunction(sample_data));
+  // const path = path.join(__dirname + '/pug/template.pug');
+  res.send(pug.renderFile(path.join(__dirname + '/pug/template.pug'), sample_data));
 })
 
 app.post('/api/puppeteer', express.json(), (req, res) => {
@@ -153,11 +164,26 @@ app.post('/api/puppeteer', express.json(), (req, res) => {
   })()
 })
 
-app.get('/api/resume/:keyword', (req, res) => {
-  const { keyword } = req.params;
-  console.log('Keyword')
-  const searches = keyword.split('&');
-  console.log(searches);
+app.get('/auth/linkedin',
+  passport.authenticate('linkedin', { state: true  }),
+  function(req, res){
+    // The request will be redirected to LinkedIn for authentication, so this
+    // function will not be called.
+});
+
+app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
+app.get('/auth/test', verifyUser, (req, res) => {
+  // console.log('Req user: ', req.user);
+  res.send(`User authenitcated. Welcome back ${req.user.email}`);
+});
+
+app.get('/api/resume/:keywords', (req, res) => {
+  const { keywords } = req.params;
+  const searches = keywords.split('&');
   let searchString = '';
 
   for (let i = 0; i < searches.length; i++) {

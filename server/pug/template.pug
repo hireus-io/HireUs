@@ -5,22 +5,19 @@ html
     style
       include style.css
   body
-    div
-      h1 #{resume.basics.name}
-      p #{resume.basics.label}
-      p #{resume.basics.email}
-      p #{resume.basics.phone}
-      p #{resume.basics.website}
-    div
-      h1 Work Experience
+    div.header
+      h1.name #{resume.basics.name}
+      p.basics #{resume.basics.label} - #{resume.basics.phone} #{resume.basics.phone} - #{resume.basics.website}
+    div.section
+      h2 Work Experience
       each job in resume.work
-        p=job.company
-        p=job.position
-    div
-      h1 Education Experience
+        p <b>#{job.company}</b> - #{job.position}
+        p #{job.summary}
+        ul
+        each highlight in job.highlights
+          li #{highlight}
+    div.section
+      h2 Education Experience
       each school in resume.education
-        p=school.institution
-        p=school.area
+        p #{school.institution} <i>#{school.area}</i> #{school.startdate} - #{school.endDate}
         p=school.studyType
-        p=school.startDate
-        p=school.endDate
