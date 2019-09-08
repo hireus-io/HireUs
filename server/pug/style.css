@@ -1,16 +1,17 @@
 
 
 body {
-  background-color: #eee;
   width: 20.59cm;
   height: 27.94cm;
+}
+
+.resume {
 }
 
 .header {
   display: flex;
   width: 100%;
   flex-direction: column;
-  background-color: #fee;
   align-items: center;
   color: black;
 }
@@ -18,7 +19,7 @@ body {
 .header:after {
   content: "";
   display: block;
-  margin: 0 autho;
+  margin: 0 auto;
   width: 80%;
   padding-top: 20px;
   border-bottom: 1px solid black;
@@ -34,4 +35,17 @@ body {
 
 .section {
   padding-left: 10%;
+}
+
+.section:after {
+  content: "";
+  display: block;
+  width: 89%;
+  padding-top: 20px;
+  margin: 0;
+  border-bottom: 1px solid black;
+}
+
+.skills {
+  padding-top: 15px;
 }

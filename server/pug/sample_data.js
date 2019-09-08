@@ -92,6 +92,14 @@ const data = {
         "CSS",
         "Javascript"
       ]
+    },{
+      "name": "DevOps",
+      "level": "Master",
+      "keywords": [
+        "AWS",
+        "Travis CI",
+        "Docker Compose"
+      ]
     }],
     "languages": [{
       "language": "English",

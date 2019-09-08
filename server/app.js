@@ -147,15 +147,27 @@ app.get('/api/pug', (req, res) => {
   // const path = path.join(__dirname + '/pug/template.pug');
   res.send(pug.renderFile(path.join(__dirname + '/pug/template.pug'), sample_data));
 })
-
-app.post('/api/puppeteer', express.json(), (req, res) => {
-  const resume = req.body.resume;
-  console.log('Req body: ', req.body);
+//TODO: Refactor Puppeteer function to its own file
+app.get('/api/resume/download', express.json(), (req, res) => {
+  const resume = sample_data.resume;
   (async () => {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     const html = compiledFunction({resume});
-    console.log(html);
+    await page.goto(`data:text/html,${html}`, { waitUntil: 'domcontentloaded' })
+    const buffer = await page.pdf({format: 'A4'})
+    res.type('application/pdf')
+    res.send(buffer)
+    browser.close()
+  })()
+})
+app.post('/api/resume/download', express.json(), (req, res) => {
+  const resume = req.body.resume;
+  (async () => {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    //const html = compiledFunction({resume});
+    const html = pug.renderFile(path.join(__dirname + '/pug/template.pug'), sample_data);
     await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle2' })
     const buffer = await page.pdf({format: 'A4'})
     res.type('application/pdf')

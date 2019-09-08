@@ -5,19 +5,26 @@ html
     style
       include style.css
   body
-    div.header
-      h1.name #{resume.basics.name}
-      p.basics #{resume.basics.label} - #{resume.basics.phone} #{resume.basics.phone} - #{resume.basics.website}
-    div.section
-      h2 Work Experience
-      each job in resume.work
-        p <b>#{job.company}</b> - #{job.position}
-        p #{job.summary}
-        ul
-        each highlight in job.highlights
-          li #{highlight}
-    div.section
-      h2 Education Experience
-      each school in resume.education
-        p #{school.institution} <i>#{school.area}</i> #{school.startdate} - #{school.endDate}
-        p=school.studyType
+    div.resume
+      div.header
+        h1.name #{resume.basics.name}
+        p.basics #{resume.basics.label} - #{resume.basics.phone} #{resume.basics.phone} - #{resume.basics.website}
+      div.section.skills
+        each skill in resume.skills
+          div
+          span <b>#{skill.name}</b>: 
+          each keyword in skill.keywords
+            span #{keyword} / 
+      div.section
+        h2 Work Experience
+        each job in resume.work
+          p <b>#{job.company}</b> - #{job.position}
+          p #{job.summary}
+          ul
+          each highlight in job.highlights
+            li #{highlight}
+      div.section
+        h2 Education Experience
+        each school in resume.education
+          p #{school.institution} <i>#{school.area}</i> #{school.startdate} - #{school.endDate}
+          p=school.studyType
