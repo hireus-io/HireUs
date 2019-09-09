@@ -5,9 +5,13 @@ const fs = require('fs');
 const axios = require('axios');
 const path = require('path');
 const request = require('request');
+const pug = require('pug');
+const puppeteer = require('puppeteer');
+const compiledFunction = pug.compileFile(path.join(__dirname + '/pug/template.pug'))
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const verifyUser = require('./Middleware/verifyUser');
+const sample_data = require('./pug/sample_data');
 
 require('dotenv').config();
 require('./db/config');
@@ -137,6 +141,40 @@ app.post('/api/resume', express.json(), (req, res) => {
       });
   });
 });
+
+app.get('/api/pug', (req, res) => {
+  //res.send(compiledFunction(sample_data));
+  // const path = path.join(__dirname + '/pug/template.pug');
+  res.send(pug.renderFile(path.join(__dirname + '/pug/template.pug'), sample_data));
+})
+//TODO: Refactor Puppeteer function to its own file
+app.get('/api/resume/download', express.json(), (req, res) => {
+  const resume = sample_data.resume;
+  (async () => {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    const html = compiledFunction({resume});
+    await page.goto(`data:text/html,${html}`, { waitUntil: 'domcontentloaded' })
+    const buffer = await page.pdf({format: 'A4'})
+    res.type('application/pdf')
+    res.send(buffer)
+    browser.close()
+  })()
+})
+app.post('/api/resume/download', express.json(), (req, res) => {
+  const resume = req.body.resume;
+  (async () => {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    //const html = compiledFunction({resume});
+    const html = pug.renderFile(path.join(__dirname + '/pug/template.pug'), sample_data);
+    await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle2' })
+    const buffer = await page.pdf({format: 'A4'})
+    res.type('application/pdf')
+    res.send(buffer)
+    browser.close()
+  })()
+})
 
 app.get('/auth/linkedin',
   passport.authenticate('linkedin', { state: true  }),
