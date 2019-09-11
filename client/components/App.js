@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react';
 import Recruiting from './Recruiting';
 
 import Splash from './Splash';
-import ApplicantForm from './ApplicantFormTwo';
+import ApplicantForm from './Application/ApplicantFormTwo';
 import resumeTemplate from '../resumeTemplate';
 
 

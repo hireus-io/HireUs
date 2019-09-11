@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 
-import BasicInput from './BasicFormInput';
-import ComplexInput from './ComplexFormInput';
-import MultipleComplex from './MultipleComplexInput';
+import BasicInput from './Application/Inputs/BasicFormInput';
+import ComplexInput from './Application/Inputs/ComplexFormInput';
+import MultipleComplex from './Application/Inputs/MultipleComplexInput';
 
 class ApplicantForm extends Component {
   constructor(props) {
