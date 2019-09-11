@@ -1,45 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import Recruiting from './Recruiting';
 
 import Splash from './Splash';
-import ApplicantForm from './ApplicantForm';
+import ApplicantForm from './ApplicantFormTwo';
+import resumeTemplate from '../resumeTemplate';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentPage: 'home',
-    };
-  }
 
-  changePage(e, currentPage) {
-    e.preventDefault();
-    this.setState({ currentPage });
-  }
+function App() {
+  const [page, setPage] = useState('home');
+  const [resume, setResume] = useState(resumeTemplate);
 
-  render() {
-    if (this.state.currentPage === 'search') {
-      return (
-        <>
-          <Recruiting changePage={this.changePage.bind(this)}/>
-        </>
-      );
-    }
-    if (this.state.currentPage === 'home') {
-      return (
-        <>
-          <Splash changePage={this.changePage.bind(this)} />
-        </>
-      );
-    } if (this.state.currentPage === 'create') {
-      return (
-        <>
-          <ApplicantForm changePage={this.changePage.bind(this)}/>
-        </>
-      );
-    }
-    return <div>{'Whoops You Shoul\'nt Be Here'}</div>;
+  if (page === 'search') {
+    return (
+      <>
+        <Recruiting changePage={setPage}/>
+      </>
+    );
   }
+  if (page === 'home') {
+    return (
+      <>
+        <Splash changePage={setPage} />
+      </>
+    );
+  } if (page === 'create') {
+    return (
+      <>
+        <ApplicantForm changePage={setPage} resume={resume} setResume={setResume}/>
+      </>
+    );
+  }
+  return <div>{'Whoops You Shoul\'nt Be Here'}</div>;
 }
 
 export default App;
