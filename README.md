@@ -1,35 +1,57 @@
-# Yuvvis Hackathon - Grand Prize winning project!
-https://yuuvishackathonaustin.bemyapp.com/
+# Hire Us
 
-## Team "Hire us" 
-
-## Members: 
-* Chad Cramer
-* Jarrod Miller
-* Nick Miron
-* Justan Human.
+Hire us is a platform that allows applicants to quickly generate resumes and for recruiters to quickly search submitted resumes based on their own criteria.
 
 ## Motivation
-Optimize the hiring process for applicants and recruiters.
+To optimize the hiring process for applicants and recruiters.
 
-## Tech used: 
-### Javascript, React, Node, Express, Axios, Yuuvis API, JSON resume protocol.
+- The Issue:
+  - For Applicants: 
+    - Resume creation is a time consuming and can be simplified to focus on what’s important, the content not the styling. 
+  - For Recruiters: 
+    - Recruiters face an influx of resumes from qualified and unqualified candidates which takes hours upon hours to parse.
+- Our solution:
+  - For Applicants: 
+    - Standard JSON-based resume which allows for automatically created and formatted resumes which get stored in the Yuuvis API. This allows applicants to quickly create the content of their resume and share it with all the recruiters on the platform.
+  - For Recruiters: 
+    - Recruiters are able to search resumes with Yuuvis's API to find resumes that match the criteria they are searching for. This allows recrutiers to reach out to qualified candidates rather than candidates reaching out to recruiters.
 
-## Setup
-To run this project:
+## Installation
+
+To get the project running locally.
+
+1. Install all the dependencies
 ```
-$ npm install
-$ npm run build
-$ npm run start
+npm install
 ```
 
-## Credits
+2. Build the bundle
+```
+npm run build
+```
 
- The Issue:
-For Applicants: Resume creation is a time consuming, process that should be simplified to focus on what’s important. Not the styling. Recruiters have an influx of resumes, an efficient process to parse through those documents will save them a ton of time and allow them to identify qualified applicants.
-Our solution:
-Applicant: Standard JSON-based resume which allows for an automatically created and formatted resume. Both get stored in the Yuuvis API. Recruiter: With hundreds of submitted applications to look through, Yuuvis API and document metadata allows for easy querying, filtering, and retrieval of documents.
-How our project works: 
-1: Applicant: Fill out resume information. We store this information as a JSON styled document and get it converted to a PDF. Both documents are then stored using the Yuuvis API.
-2: Recruiter: Filter resumes to find qualified docs. With hundreds of submitted applications to look through, Yuuvis API and document metadata allows for easy querying, filtering, and retrieval of documents.
-Competed with 20 other teams, won first place! 
+3. Start the server
+```
+npm run start
+```
+
+4. Go to localhost 3000 in your browswer
+```
+localhost:3000
+```
+
+## In the News:
+* [Galvanize Blog](https://blog.galvanize.com/hack-reactor-software-engineers-win-first-place-at-hackathon/)
+
+
+## Authors: 
+* [Chad Cramer](https://github.com/Chadramer)
+* [Jarrod Miller](https://github.com/jarmill)
+* [Justan Human](https://github.com/justanotherhuman)
+* [Nick Miron](https://github.com/NicholasMiron)
+* [Will Yang](https://github.com/TheOriginalYangster)
+
+
+## Acknowledgments
+* [Yuuvis](https://yuuvis.com) for their API and continuing support
+* Everyone that has supported us to get to where we are now
