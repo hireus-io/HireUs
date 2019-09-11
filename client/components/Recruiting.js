@@ -87,7 +87,7 @@ class Recruiting extends React.Component {
     return (
       <>
       <header className={'header top'}>
-        <h1 onClick={e => this.props.changePage(e, 'home')}>Recruiter Dashboard</h1>
+        <h1 onClick={() => this.props.changePage('home')}>Recruiter Dashboard</h1>
       </header>
       <div className='Recruiter'>
       <RecruitingSearch handleAddSkill={this.handleAddSkill}
