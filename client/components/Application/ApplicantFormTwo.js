@@ -6,7 +6,24 @@ import Section from './Sections';
 class ApplicantForm extends Component {
   constructor(props) {
     super(props);
-    this.state = props.resume;
+  }
+
+  handleChange({ section_subsection, value, index }) {
+    const { resume } = this.props;
+    const section = section_subsection.split('_')[0];
+    const subsection = section_subsection.split('_')[1];
+    const initializeObj = () => {
+      if (!resume[section][index]) {
+        for (let i = 0; i <= index; i += 1) {
+          if (!resume[section][i]) {
+            resume[section][i] = {};
+          }
+        }
+      }
+    };
+    initializeObj();
+    resume[section][index][subsection] = value;
+    this.props.setResume(resume);
   }
 
   handleSubmit(e) {
@@ -151,18 +168,19 @@ class ApplicantForm extends Component {
   }
 
   render() {
+    // const line = (this.props.resume["work"][0]) ? this.props.resume["work"][0]["company"] : 'none';
     return (
       <>
         <header className={'header'}>
           <h1 onClick={() => this.props.changePage('home')}>Build Your Resume</h1>
         </header>
         <form id={'applicantForm'}>
-          <Section.Basics />
-          <Section.Work />
-          <Section.Education />
+          {/* <Section.Basics handleChange={this.handleChange.bind(this)} resume={this.props.resume}/> */}
+          <Section.Work handleChange={this.handleChange.bind(this)} resume={this.props.resume}/>
+          {/* <Section.Education />
           <Section.Volunteer />
           <Section.Interests />
-          <Section.Keywords />
+          <Section.Keywords /> */}
           <input className={'formSubmit'} type={'submit'} onClick={this.handleSubmit.bind(this)}></input>
         </form>
       </>
@@ -172,6 +190,7 @@ class ApplicantForm extends Component {
 
 ApplicantForm.propTypes = {
   changePage: PropTypes.func,
+  setResume: PropTypes.func,
   resume: PropTypes.objectOf(PropTypes.object),
 };
 
