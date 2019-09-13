@@ -5,11 +5,21 @@ import Axios from 'axios';
 import BasicInput from './BasicFormInput';
 import ComplexInput from './ComplexFormInput';
 import MultipleComplex from './MultipleComplexInput';
+import PDFView from './PDFView';
+
 
 class ApplicantForm extends Component {
   constructor(props) {
     super(props);
     this.state = props.resume;
+  }
+
+  // TODO This needs to be refactored to update when resume json changes
+  componentWillMount() {
+    Axios.post('/api/templates/raspberry', { resumeJSON: { author: 'nick' } })
+      .then((data) => {
+        this.setState({ html: data.data });
+      });
   }
 
   handleSubmit(e) {
@@ -159,6 +169,7 @@ class ApplicantForm extends Component {
         <header className={'header'}>
           <h1 onClick={() => this.props.changePage('home')}>Build Your Resume</h1>
         </header>
+        <PDFView html={this.state.html} />
         <form id={'applicantForm'}>
           <span className={'inputSectionTitle'}>{'Basic Information'}</span>
           <BasicInput info={{
