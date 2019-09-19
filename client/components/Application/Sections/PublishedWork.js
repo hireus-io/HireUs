@@ -1,9 +1,13 @@
 import React from 'react';
 import MultipleComplex from '../Inputs/MultipleComplexInput';
 
-function PublishedWork() {
+function PublishedWork({resume, handleChange}) {
   return (
-    <MultipleComplex mainName={'Published Work'} subInputs={[
+    <MultipleComplex
+      mainName={'Published Work'}
+      resume={resume}
+      handleChange={handleChange}
+      subInputs={[
       {
         name: 'publications_name', schemaName: 'name', displayName: 'Name:', placeholder: '', parent: 'publications',
       },

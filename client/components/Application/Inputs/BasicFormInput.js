@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getResumeData } from '../helperFunctions';
 
 
 const BasicInput = ({ info, index, resume, handleChange }) => {
   const section = info.name.split('_')[0];
   const subSection = info.name.split('_')[1];
-
+  const value = getResumeData(resume, section, subSection, index);
   // If a user has started typing, the value will reflect state. If not it will be undefined, so show '' instead
-  const value = (resume[section][index]) ? resume[section][index][subSection] : '';
+  // if (section = 'basics') {
+  //   value = resume['basics'][subSection];
+  // } else {
+  //   value = (resume[section][index]) ? resume[section][index][subSection] : '';
+  // }
   return (
     <div className={'inputSection'}>
       <label className={'label'} htmlFor={info.name}>{info.displayName}</label>

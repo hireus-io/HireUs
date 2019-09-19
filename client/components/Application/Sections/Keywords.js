@@ -1,9 +1,12 @@
 import React from 'react';
 import BasicInput from '../Inputs/BasicFormInput';
 
-function Keywords() {
+function Keywords({ resume, handleChange }) {
   return (
-    <BasicInput info={{ name: 'keywords_keywords', displayName: 'Keywords', placeholder: 'Seperate by commas' }}/>
+    <BasicInput
+      resume={resume}
+      handleChange={handleChange}
+      info={{ name: 'keywords_keywords', displayName: 'Keywords', placeholder: 'Seperate by commas' }}/>
   );
 }
 

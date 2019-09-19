@@ -1,9 +1,13 @@
 import React from 'react';
 import MultipleComplex from '../Inputs/MultipleComplexInput';
 
-function Education() {
+function Education({resume, handleChange}) {
   return (
-    <MultipleComplex mainName={'Education'} subInputs={[
+    <MultipleComplex
+      mainName={'Education'}
+      resume={resume}
+      handleChange={handleChange}
+      subInputs={[
       {
         name: 'education_institution', schemaName: 'institution', displayName: 'Institution:', placeholder: '', parent: 'education',
       },

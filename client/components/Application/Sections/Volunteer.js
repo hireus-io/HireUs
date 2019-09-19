@@ -1,9 +1,13 @@
 import React from 'react';
 import MultipleComplex from '../Inputs/MultipleComplexInput';
 
-function Volunteer() {
+function Volunteer({resume, handleChange}) {
   return (
-    <MultipleComplex mainName={'Volunteer Experience'} subInputs={[
+    <MultipleComplex
+      mainName={'Volunteer Experience'}
+      resume={resume}
+      handleChange={handleChange}
+      subInputs={[
       {
         name: 'volunteer_organization', schemaName: 'organization', displayName: 'Organization:', placeholder: '', parent: 'volunteer',
       },

@@ -1,9 +1,13 @@
 import React from 'react';
 import MultipleComplex from '../Inputs/MultipleComplexInput';
 
-function References() {
+function References({resume, handleChange}) {
   return (
-    <MultipleComplex mainName={'References'} subInputs={[
+    <MultipleComplex
+      mainName={'References'}
+      resume={resume}
+      handleChange={handleChange}
+      subInputs={[
       {
         name: 'references_name', schemaName: 'name', displayName: 'Name:', placeholder: '', parent: 'references',
       },

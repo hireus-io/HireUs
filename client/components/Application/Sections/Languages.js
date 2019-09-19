@@ -1,9 +1,13 @@
 import React from 'react';
 import MultipleComplex from '../Inputs/MultipleComplexInput';
 
-function Languages() {
+function Languages({resume, handleChange}) {
   return (
-    <MultipleComplex mainName={'Languages'} subInputs={[
+    <MultipleComplex
+      mainName={'Languages'}
+      resume={resume}
+      handleChange={handleChange}
+      subInputs={[
       {
         name: 'languages_language', schemaName: 'language', displayName: 'Language:', placeholder: '', parent: 'languages',
       },
