@@ -24,8 +24,11 @@ class MultipleComplex extends Component {
         {this.state.amountToRender.map((num, i) => (
           <ComplexInput
             key={num + i}
+            index={i}
             mainName={this.props.mainName}
             subInputs={this.props.subInputs}
+            resume={this.props.resume}
+            handleChange={this.props.handleChange}
           />
         ))}
         <div className={'extraComplexButton'}>
@@ -40,6 +43,8 @@ class MultipleComplex extends Component {
 MultipleComplex.propTypes = {
   mainName: PropTypes.string,
   subInputs: PropTypes.array,
+  resume: PropTypes.objectOf(PropTypes.object),
+  handleChange: PropTypes.func,
 };
 
 export default MultipleComplex;

@@ -2,14 +2,43 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 
-import BasicInput from './BasicFormInput';
-import ComplexInput from './ComplexFormInput';
-import MultipleComplex from './MultipleComplexInput';
+import BasicInput from './Application/Inputs/BasicFormInput';
+import ComplexInput from './Application/Inputs/ComplexFormInput';
+import MultipleComplex from './Application/Inputs/MultipleComplexInput';
 
 class ApplicantForm extends Component {
   constructor(props) {
     super(props);
-    this.state = props.resume;
+    this.state = {
+      schema: {
+        basics: {
+          name: '',
+          label: '',
+          picture: '',
+          email: '',
+          phone: '',
+          website: '',
+          summary: '',
+          location: {
+            address: '',
+            postalCode: '',
+            city: '',
+            countryCode: '',
+            region: '',
+          },
+          profiles: [],
+        },
+        work: [],
+        volunteer: [],
+        education: [],
+        awards: [],
+        publications: [],
+        skills: [],
+        languages: [],
+        interests: [],
+        references: [],
+      },
+    };
   }
 
   handleSubmit(e) {
@@ -157,7 +186,7 @@ class ApplicantForm extends Component {
     return (
       <>
         <header className={'header'}>
-          <h1 onClick={() => this.props.changePage('home')}>Build Your Resume</h1>
+          <h1 onClick={e => this.props.changePage(e, 'home')}>Build Your Resume</h1>
         </header>
         <form id={'applicantForm'}>
           <span className={'inputSectionTitle'}>{'Basic Information'}</span>
@@ -355,7 +384,6 @@ class ApplicantForm extends Component {
 
 ApplicantForm.propTypes = {
   changePage: PropTypes.func,
-  resume: PropTypes.objectOf(PropTypes.object),
 };
 
 
