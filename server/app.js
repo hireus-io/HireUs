@@ -80,8 +80,6 @@ async function executeRequest(request_object) {
     request.post(request_object, (err, httpResponse, body) => {
       if (err) reject(err);
       else {
-        // console.log('RESPONSE: ', httpResponse.statusCode);
-        //console.log('RESPONSE BODY: ', body);
         resolve(body);
       }
     });
@@ -142,8 +140,7 @@ app.post('/api/resume', express.json(), (req, res) => {
 
     executeRequest(requestObject)
       .then((responseBody) => {
-        //console.log('Server response: ', responseBody);
-        return genResume(resume);
+        d        return genResume(resume);
       })
       .then((pugResume) => {
         res.type('application/pdf');
@@ -153,20 +150,9 @@ app.post('/api/resume', express.json(), (req, res) => {
         console.log(err);
       });
   });
-  // fs.writeFile('resume.json', JSON.stringify(req.body.resume, null, 2), () => {
-  //   exec('resume export resume.pdf  --theme kendall ')
-  //     .then(() => {
-  //       console.log('Redirecting resume');
-  //     })
-  //     .catch(() => {
-  //       res.end();
-  //     });
-  // });
 });
 
 app.get('/api/pug', (req, res) => {
-  //res.send(compiledFunction(sample_data));
-  // const path = path.join(__dirname + '/pug/template.pug');
   res.send(pug.renderFile(path.join(__dirname + '/pug/template.pug'), sample_data));
 })
 //TODO: Refactor Puppeteer function to its own file
@@ -182,7 +168,6 @@ app.post('/api/resume/download', express.json(), (req, res) => {
   (async () => {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
-    //const html = compiledFunction({resume});
     const html = pug.renderFile(path.join(__dirname + '/pug/template.pug'), sample_data);
     await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle2' })
     const buffer = await page.pdf({ format: 'A4' })
@@ -205,7 +190,6 @@ app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
 }));
 
 app.get('/auth/test', verifyUser, (req, res) => {
-  // console.log('Req user: ', req.user);
   res.send(`User authenitcated. Welcome back ${req.user.email}`);
 });
 
@@ -263,7 +247,6 @@ app.get('/api/resume/:keywords', (req, res) => {
 
 app.post('/api/resumeupdate', express.json(), (req, res) => {
   let { email, keywords, resume, objectId } = req.body;
-  console.log('Hello!, You are here');
   // we need to add a function that writes to resume.json
   resume = JSON.stringify(resume);
   fs.writeFile(path.join(__dirname, '/resume.json'), resume, (err) => {

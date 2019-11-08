@@ -14,9 +14,9 @@ class Recruiting extends React.Component {
       searchProps: [],
       matchingResumes: [],
       currentResume: {},
-    },
+    };
 
-      this.handleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleAddSkill = this.handleAddSkill.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleRemoveSkill = this.handleRemoveSkill.bind(this);
