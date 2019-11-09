@@ -1,0 +1,71 @@
+{
+  "basics": {
+    "name": "s",
+    "label": "j",
+    "picture": "j",
+    "email": "j",
+    "phone": "j",
+    "website": "j",
+    "summary": "j",
+    "location": {
+      "address": "j",
+      "postalCode": "j",
+      "city": "j",
+      "countryCode": "j",
+      "region": ""
+    },
+    "profiles": [
+      {
+        "network": "j",
+        "username": "j",
+        "url": "j",
+        "keywords": "j"
+      }
+    ]
+  },
+  "work": [
+    {
+      "company": "j",
+      "position": "j",
+      "website": "j",
+      "startDate": "j",
+      "endDate": "j",
+      "summary": "j",
+      "highlights": "j"
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "j",
+      "position": "j",
+      "website": "j",
+      "startDate": "j",
+      "endDate": "j",
+      "summary": "j",
+      "highlights": "j"
+    }
+  ],
+  "education": [
+    {
+      "institution": "j",
+      "area": "j",
+      "studyType": "j",
+      "startDate": "j",
+      "endDate": "j",
+      "gpa": "j",
+      "courses": "j"
+    }
+  ],
+  "awards": [],
+  "publications": [],
+  "skills": [],
+  "languages": [],
+  "interests": [
+    {
+      "name": "j",
+      "keywords": "j"
+    }
+  ],
+  "references": [],
+  "keywords": "j"
+}
