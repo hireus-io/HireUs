@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Axios from 'axios';
+import axios from 'axios';
 import Section from './Sections';
 import { setResumeData } from './helperFunctions';
 import Form from './Form';
@@ -21,11 +21,21 @@ class ApplicantForm extends Component {
     this.props.setResume(newResume);
   }
 
+  componentDidMount() {
+    axios.get('/api/resume')
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     const { resume } = this.props;
 
-    Axios.post('/api/resume', {
+    axios.post('/api/resume', {
       email: resume.basics.email,
       resume,
       keywords: resume.keywords,
@@ -33,7 +43,7 @@ class ApplicantForm extends Component {
     })
       .then((response) => {
         console.log(response);
-        //window.open('/api/download/resume');
+        window.open('/api/download/resume');
       });
   }
 

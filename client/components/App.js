@@ -17,6 +17,7 @@ class App extends Component {
     this.setPage = this.setPage.bind(this);
     this.setResume = this.setResume.bind(this);
   }
+
   setPage(page) {
     this.setState({ page });
   }

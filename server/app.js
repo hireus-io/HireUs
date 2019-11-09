@@ -12,6 +12,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const verifyUser = require('./Middleware/verifyUser');
 const sample_data = require('./pug/sample_data');
+const { createResume, getResumeByEmail } = require('./db/Controllers/Resume');
 
 require('dotenv').config();
 require('./db/config');
@@ -43,7 +44,6 @@ function createDocumentMetadata(doc_email, doc_keywords, doc_fileName, cid, doc_
 
 function createImportFormdata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType) {
   const meta = JSON.stringify(createDocumentMetadata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType));
-  console.log(meta);
   const formData = {};
   formData.data = {
     value: meta,
@@ -124,7 +124,28 @@ app.get('/api/download/resume', (req, res) => {
   3) returns yuuvis response body
 
 */
-app.post('/api/resume', express.json(), (req, res) => {
+app.get('/api/resume', verifyUser, express.json(), (req, res) => {
+  console.log('Received get request for user', req.user.email);
+  getResumeByEmail(req.user.email)
+    .then((results) => {
+      if (results) {
+        const url = `https://api.yuuvis.io/dms-core/objects/${results[0].objectId}/contents/file`
+        const key = process.env.API_KEY;
+        const headers = { headers: { "Ocp-Apim-Subscription-Key": key } }
+        console.log(url, headers);
+        axios.get(url, headers)
+          .then((response) => {
+            console.log('Client previously submitted resume: ', response.data);
+            response.JSON(response.data);
+          })
+      }
+      else {
+        res.send();
+      }
+    }
+    );
+});
+app.post('/api/resume', verifyUser, express.json(), (req, res) => {
   let { email, keywords, resume } = req.body;
   // we need to add a function that writes to resume.json
   resume = JSON.stringify(resume);
@@ -140,12 +161,18 @@ app.post('/api/resume', express.json(), (req, res) => {
 
     executeRequest(requestObject)
       .then((responseBody) => {
-        d        return genResume(resume);
+        const response = JSON.parse(responseBody);
+        const objectId = response.objects[0].properties['enaio:objectId'].value;
+        return createResume(req.user.email, objectId);
+        //return genResume(resume);
       })
-      .then((pugResume) => {
-        res.type('application/pdf');
-        res.send(pugResume)
+      .then(() => {
+        res.send(201);
       })
+      // .then((pugResume) => {
+      //   res.type('application/pdf');
+      //   res.send(pugResume)
+      // })
       .catch((err) => {
         console.log(err);
       });
@@ -226,9 +253,7 @@ app.get('/api/resume/:keywords', (req, res) => {
         .then((results) => {
           const resumes = results.map(result => {
             let resume = result.data;
-            console.log(result.request.path);
             let objectId = result.request.path.split('/')[3];
-            console.log('objectId:', objectId);
             resume["objectId"] = objectId;
             return resume;
           });
