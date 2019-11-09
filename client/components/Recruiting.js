@@ -85,9 +85,6 @@ class Recruiting extends React.Component {
   render() {
     return (
       <>
-        <header className={'header top'}>
-          <h1 onClick={() => this.props.changePage('home')}>Recruiter Dashboard</h1>
-        </header>
         <div className='Recruiter'>
           <RecruitingSearch handleAddSkill={this.handleAddSkill}
             value={this.state.value}
@@ -104,7 +101,6 @@ class Recruiting extends React.Component {
 }
 
 Recruiting.propTypes = {
-  changePage: PropTypes.func,
 };
 
 

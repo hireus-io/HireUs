@@ -1,10 +1,11 @@
 import React, { Component, useState, useEffect } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 import Recruiting from './Recruiting';
 
 import Splash from './Splash';
 import ApplicantForm from './Application/ApplicantForm';
 import resumeTemplate from '../resumeTemplate';
+import Header from './Header';
 
 
 class App extends Component {
@@ -13,7 +14,7 @@ class App extends Component {
     this.state = {
       page: 'home',
       resume: resumeTemplate.schema,
-      userLoggedIn: false,
+      loggedIn: false,
     };
 
     this.setPage = this.setPage.bind(this);
@@ -21,15 +22,27 @@ class App extends Component {
   }
 
   componentDidMount() {
-    Axios.get('/auth/isLoggedIn')
+    axios.get('/auth/user')
       .then((user) => {
-        this.setState({ userLoggedIn: user.isLoggedIn });
+        this.setState({ loggedIn: user.data.isLoggedIn });
       })
       .catch(err => console.log(err));
   }
 
   setPage(page) {
-    this.setState({ page });
+    if (page !== 'home') {
+      axios.get('/auth/user')
+        .then((user) => {
+          if (user.data.isLoggedIn) {
+            this.setState({ page });
+          } else {
+            const message = document.getElementById('errLogin');
+            message.style.visibility = 'visible';
+          }
+        });
+    } else {
+      this.setState({ page });
+    }
   }
 
   setResume(resume) {
@@ -41,20 +54,23 @@ class App extends Component {
     if (page === 'search') {
       return (
         <>
-          <Recruiting changePage={this.setPage} />
+          <Header changePage={this.setPage} loggedIn={this.state.loggedIn} logout={this.logout} />
+          <Recruiting />
         </>
       );
     }
     if (page === 'home') {
       return (
         <>
-          <Splash changePage={this.setPage} userLoggedIn={this.state.userLoggedIn}/>
+          <Header changePage={this.setPage} loggedIn={this.state.loggedIn} logout={this.logout} />
+          <Splash changePage={this.setPage} />
         </>
       );
     } if (page === 'create') {
       return (
         <>
-          <ApplicantForm changePage={this.setPage} resume={resume} setResume={this.setResume} />
+          <Header changePage={this.setPage} loggedIn={this.state.loggedIn} logout={this.logout} />
+          <ApplicantForm resume={resume} setResume={this.setResume} />
         </>
       );
     }

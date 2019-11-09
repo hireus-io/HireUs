@@ -7,7 +7,8 @@ const path = require('path');
 const request = require('request');
 const pug = require('pug');
 const puppeteer = require('puppeteer');
-const compiledFunction = pug.compileFile(path.join(__dirname + '/pug/template.pug'))
+
+const compiledFunction = pug.compileFile(path.join(`${__dirname}/pug/template.pug`));
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const verifyUser = require('./Middleware/verifyUser');
@@ -87,24 +88,25 @@ async function executeRequest(request_object) {
 }
 
 async function genResume(resume) {
-  const browser = await puppeteer.launch()
-  const page = await browser.newPage()
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
   const html = compiledFunction({ resume: JSON.parse(resume) });
-  await page.goto(`data:text/html,${html}`, { waitUntil: 'domcontentloaded' })
-  const buffer = await page.pdf({ format: 'A4' })
-  browser.close()
+  await page.goto(`data:text/html,${html}`, { waitUntil: 'domcontentloaded' });
+  const buffer = await page.pdf({ format: 'A4' });
+  browser.close();
   return buffer;
 }
-const exec = util.promisify(cp.exec);
 
 const app = express();
-app.use(require('morgan')('dev')); // Logs all inbound requests to console
+app.use(require('morgan')('dev'));
+// Logs all inbound requests to console
 app.use(express.static('dist'));
 app.use(cookieSession({
   name: 'session',
-  keys: [process.env.COOKIE_SESSION]
-}))
+  keys: [process.env.COOKIE_SESSION],
+}));
 require('./auth');
+
 app.use(passport.initialize());
 app.use(passport.session());
 // app.post('/api/resume', (req, res) => {
@@ -129,21 +131,19 @@ app.get('/api/resume', verifyUser, express.json(), (req, res) => {
   getResumeByEmail(req.user.email)
     .then((results) => {
       if (results) {
-        const url = `https://api.yuuvis.io/dms-core/objects/${results[0].objectId}/contents/file`
+        const url = `https://api.yuuvis.io/dms-core/objects/${results[0].objectId}/contents/file`;
         const key = process.env.API_KEY;
-        const headers = { headers: { "Ocp-Apim-Subscription-Key": key } }
+        const headers = { headers: { 'Ocp-Apim-Subscription-Key': key } };
         console.log(url, headers);
         axios.get(url, headers)
           .then((response) => {
             console.log('Client previously submitted resume: ', response.data);
             res.json(response.data);
-          })
-      }
-      else {
+          });
+      } else {
         res.send({});
       }
-    }
-    );
+    });
 });
 app.post('/api/resume', verifyUser, express.json(), (req, res) => {
   let { email, keywords, resume } = req.body;
@@ -164,7 +164,7 @@ app.post('/api/resume', verifyUser, express.json(), (req, res) => {
         const response = JSON.parse(responseBody);
         const objectId = response.objects[0].properties['enaio:objectId'].value;
         return createResume(req.user.email, objectId);
-        //return genResume(resume);
+        // return genResume(resume);
       })
       .then(() => {
         res.send(201);
@@ -180,41 +180,46 @@ app.post('/api/resume', verifyUser, express.json(), (req, res) => {
 });
 
 app.get('/api/pug', (req, res) => {
-  res.send(pug.renderFile(path.join(__dirname + '/pug/template.pug'), sample_data));
-})
-//TODO: Refactor Puppeteer function to its own file
+  res.send(pug.renderFile(path.join(`${__dirname}/pug/template.pug`), sample_data));
+});
+// TODO: Refactor Puppeteer function to its own file
 app.get('/api/resume/download', express.json(), (req, res) => {
-  const resume = sample_data.resume;
+  const { resume } = sample_data;
   genResume(resume).then((pugResume) => {
     res.type('application/pdf');
     res.send(pugResume);
   });
-})
+});
 app.post('/api/resume/download', express.json(), (req, res) => {
-  const resume = req.body.resume;
+  const { resume } = req.body;
   (async () => {
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-    const html = pug.renderFile(path.join(__dirname + '/pug/template.pug'), sample_data);
-    await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle2' })
-    const buffer = await page.pdf({ format: 'A4' })
-    res.type('application/pdf')
-    res.send(buffer)
-    browser.close()
-  })()
-})
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    const html = pug.renderFile(path.join(`${__dirname}/pug/template.pug`), sample_data);
+    await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle2' });
+    const buffer = await page.pdf({ format: 'A4' });
+    res.type('application/pdf');
+    res.send(buffer);
+    browser.close();
+  })();
+});
 
 app.get('/auth/linkedin',
   passport.authenticate('linkedin', { state: true }),
-  function (req, res) {
+  (req, res) => {
     // The request will be redirected to LinkedIn for authentication, so this
     // function will not be called.
   });
 
 app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
   successRedirect: '/',
-  failureRedirect: '/login'
+  failureRedirect: '/login',
 }));
+
+app.get('/auth/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
 
 app.get('/auth/test', verifyUser, (req, res) => {
   res.send(`User authenitcated. Welcome back ${req.user.email}`);
@@ -225,7 +230,7 @@ app.get('/auth/user', (req, res) => {
     res.send({
       isLoggedIn: true,
       email: req.user.email,
-    })
+    });
   } else {
     res.send({
       isLoggedIn: false,
@@ -264,10 +269,10 @@ app.get('/api/resume/:keywords', (req, res) => {
       });
       Promise.all(promises)
         .then((results) => {
-          const resumes = results.map(result => {
-            let resume = result.data;
-            let objectId = result.request.path.split('/')[3];
-            resume["objectId"] = objectId;
+          const resumes = results.map((result) => {
+            const resume = result.data;
+            const objectId = result.request.path.split('/')[3];
+            resume.objectId = objectId;
             return resume;
           });
           res.send(resumes);
@@ -284,7 +289,9 @@ app.get('/api/resume/:keywords', (req, res) => {
 });
 
 app.post('/api/resumeupdate', express.json(), (req, res) => {
-  let { email, keywords, resume, objectId } = req.body;
+  let {
+    email, keywords, resume, objectId,
+  } = req.body;
   // we need to add a function that writes to resume.json
   resume = JSON.stringify(resume);
   fs.writeFile(path.join(__dirname, '/resume.json'), resume, (err) => {
@@ -298,10 +305,9 @@ app.post('/api/resumeupdate', express.json(), (req, res) => {
     const requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
     const headers = { headers: { 'Ocp-Apim-Subscription-Key': process.env.API_KEY } };
     executeRequest(requestObject);
-    axios.delete(`https://api.yuuvis.io/dms/objects/${objectId}`, headers)
+    axios.delete(`https://api.yuuvis.io/dms/objects/${objectId}`, headers);
     console.log('Deleted');
     res.send(201);
-
   });
 });
 module.exports = app;
