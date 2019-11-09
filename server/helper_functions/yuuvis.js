@@ -1,4 +1,5 @@
 const request = require('request');
+const fs = require('fs');
 
 function createDocumentMetadata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType) {
   return {
