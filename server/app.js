@@ -110,6 +110,19 @@ app.get('/auth/test', verifyUser, (req, res) => {
   res.send(`User authenitcated. Welcome back ${req.user.email}`);
 });
 
+app.get('/auth/user', (req, res) => {
+  if (req.user) {
+    res.send({
+      isLoggedIn: true,
+      email: req.user.email,
+    })
+  } else {
+    res.send({
+      isLoggedIn: false,
+    });
+  }
+});
+
 app.get('/api/resume/:keywords', (req, res) => {
   const { keywords } = req.params;
   const searches = keywords.split('&');
