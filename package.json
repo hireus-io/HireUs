@@ -9,7 +9,7 @@
     "node": ">=11"
   },
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "node server",
     "start:dev": "webpack-dev-server --color",
     "build": "webpack -w --profile",
     "launch": "npm run build & npm run start",
