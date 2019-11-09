@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
+import Axios from 'axios';
 import Recruiting from './Recruiting';
 
 import Splash from './Splash';
@@ -12,10 +13,19 @@ class App extends Component {
     this.state = {
       page: 'home',
       resume: resumeTemplate.schema,
+      userLoggedIn: false,
     };
 
     this.setPage = this.setPage.bind(this);
     this.setResume = this.setResume.bind(this);
+  }
+
+  componentDidMount() {
+    Axios.get('/auth/isLoggedIn')
+      .then((user) => {
+        this.setState({ userLoggedIn: user.isLoggedIn });
+      })
+      .catch(err => console.log(err));
   }
 
   setPage(page) {
@@ -38,7 +48,7 @@ class App extends Component {
     if (page === 'home') {
       return (
         <>
-          <Splash changePage={this.setPage} />
+          <Splash changePage={this.setPage} userLoggedIn={this.state.userLoggedIn}/>
         </>
       );
     } if (page === 'create') {

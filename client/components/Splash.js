@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Header from './Header';
 
-const Splash = ({ changePage }) => (
+const Splash = ({ changePage, userLoggedIn }) => (
   <>
-    <div className={'header'}>
-      <h1>Hire US</h1>
-      <a href="/auth/linkedin"> Log In</a>
-    </div>
+    <Header changePage={changePage} loggedIn={false} userLoggedIn={userLoggedIn} />
     <div className={'splash'}>
       <button onClick={() => changePage('create')}>Create A Resume</button>
       <button onClick={() => changePage('search')}>Search Resumes</button>
@@ -20,6 +18,7 @@ const Splash = ({ changePage }) => (
 
 Splash.propTypes = {
   changePage: PropTypes.func,
+  userLoggedIn: PropTypes.bool,
 };
 
 export default Splash;
