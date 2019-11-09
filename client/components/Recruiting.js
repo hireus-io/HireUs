@@ -14,7 +14,7 @@ class Recruiting extends React.Component {
       searchProps: [],
       matchingResumes: [],
       currentResume: {},
-    },
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleAddSkill = this.handleAddSkill.bind(this);
@@ -64,17 +64,16 @@ class Recruiting extends React.Component {
         skills += `${this.state.searchProps[i]}&`;
       }
     }
-    console.log(skills);
     axios.get(`/api/resume/${skills}`)
       .then((response) => {
-      // handle success
+        // handle success
         console.log('success', response.data[0].basics.name);
         // let name = response.data[0].basics.name;
         const newMatchingResumes = response.data;
         this.setState({ matchingResumes: newMatchingResumes });
       })
       .catch((error) => {
-      // handle error
+        // handle error
         console.log('error in handleSearch function:', error);
       });
   }
@@ -86,20 +85,20 @@ class Recruiting extends React.Component {
   render() {
     return (
       <>
-      <header className={'header top'}>
-        <h1 onClick={() => this.props.changePage('home')}>Recruiter Dashboard</h1>
-      </header>
-      <div className='Recruiter'>
-      <RecruitingSearch handleAddSkill={this.handleAddSkill}
-                        value={this.state.value}
-                        handleChange={this.handleChange}
-                        handleRemoveSkill={this.handleRemoveSkill}
-                        searchProps={this.state.searchProps}
-                        handleSearch={this.handleSearch}/>
-        <RecruitingList className='recruiter-sidebar' resumes={this.state.matchingResumes} handleView={this.handleView}/>
-        <RecruitingFocus className='recruiter-focus' focusResume={this.state.currentResume}/>
-    </div>
-    </>
+        <header className={'header top'}>
+          <h1 onClick={() => this.props.changePage('home')}>Recruiter Dashboard</h1>
+        </header>
+        <div className='Recruiter'>
+          <RecruitingSearch handleAddSkill={this.handleAddSkill}
+            value={this.state.value}
+            handleChange={this.handleChange}
+            handleRemoveSkill={this.handleRemoveSkill}
+            searchProps={this.state.searchProps}
+            handleSearch={this.handleSearch} />
+          <RecruitingList className='recruiter-sidebar' resumes={this.state.matchingResumes} handleView={this.handleView} />
+          <RecruitingFocus className='recruiter-focus' focusResume={this.state.currentResume} />
+        </div>
+      </>
     );
   }
 }

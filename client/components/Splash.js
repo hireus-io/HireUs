@@ -5,6 +5,7 @@ const Splash = ({ changePage }) => (
   <>
     <div className={'header'}>
       <h1>Hire US</h1>
+      <a href="/auth/linkedin"> Log In</a>
     </div>
     <div className={'splash'}>
       <button onClick={() => changePage('create')}>Create A Resume</button>

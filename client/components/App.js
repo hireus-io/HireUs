@@ -17,12 +17,13 @@ class App extends Component {
     this.setPage = this.setPage.bind(this);
     this.setResume = this.setResume.bind(this);
   }
+
   setPage(page) {
     this.setState({ page });
   }
 
-  setResume (resume) {
-    this.setState({ resume }, () => console.log('New Resume: ', this.state.resume));
+  setResume(resume) {
+    this.setState({ resume });
   }
 
   render() {
@@ -30,7 +31,7 @@ class App extends Component {
     if (page === 'search') {
       return (
         <>
-          <Recruiting changePage={this.setPage}/>
+          <Recruiting changePage={this.setPage} />
         </>
       );
     }
@@ -43,7 +44,7 @@ class App extends Component {
     } if (page === 'create') {
       return (
         <>
-          <ApplicantForm changePage={this.setPage} resume={resume} setResume={this.setResume}/>
+          <ApplicantForm changePage={this.setPage} resume={resume} setResume={this.setResume} />
         </>
       );
     }
