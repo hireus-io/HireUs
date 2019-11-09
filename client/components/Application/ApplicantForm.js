@@ -25,10 +25,13 @@ class ApplicantForm extends Component {
     axios.get('/api/resume')
       .then((response) => {
         console.log(response);
+        if (Object.keys(response.data)) {
+          this.props.setResume(response.data);
+        }
       })
       .catch((err) => {
         console.error(err);
-      })
+      });
   }
 
   handleSubmit(e) {
@@ -52,6 +55,7 @@ class ApplicantForm extends Component {
       <>
         <header className={'header'}>
           <h1 onClick={() => this.props.changePage('home')}>Build Your Resume</h1>
+          <a href="/auth/linkedin">Login</a>
         </header>
         <Form handleChange={this.handleChange} resume={this.props.resume} >
           <Section.Basics />

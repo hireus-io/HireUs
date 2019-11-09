@@ -136,11 +136,11 @@ app.get('/api/resume', verifyUser, express.json(), (req, res) => {
         axios.get(url, headers)
           .then((response) => {
             console.log('Client previously submitted resume: ', response.data);
-            response.JSON(response.data);
+            res.json(response.data);
           })
       }
       else {
-        res.send();
+        res.send({});
       }
     }
     );
