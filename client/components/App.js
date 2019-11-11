@@ -1,8 +1,9 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import Recruiting from './Recruiting';
 
 import Splash from './Splash';
 import ApplicantForm from './Application/ApplicantForm';
+import Generate from './Generate/Generate';
 import resumeTemplate from '../resumeTemplate';
 
 
@@ -41,12 +42,20 @@ class App extends Component {
           <Splash changePage={this.setPage} />
         </>
       );
-    } if (page === 'create') {
+    }
+    if (page === 'create') {
       return (
         <>
           <ApplicantForm changePage={this.setPage} resume={resume} setResume={this.setResume} />
         </>
       );
+    }
+    if (page === 'generate') {
+      return (
+        <>
+          <Generate changePage={this.setPage} resume={resume} />
+        </>
+      )
     }
     return <div>{'Whoops You Shoul\'nt Be Here'}</div>;
   }

@@ -44,9 +44,8 @@ class ApplicantForm extends Component {
       keywords: resume.keywords,
       responseType: 'blob',
     })
-      .then((response) => {
-        console.log(response);
-        window.open('/api/download/resume');
+      .then(() => {
+        this.props.changePage('generate');
       });
   }
 

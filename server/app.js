@@ -30,14 +30,12 @@ app.use(passport.session());
 
 
 app.get('/api/resume', verifyUser, express.json(), (req, res) => {
-  console.log('Received get request for user', req.user.email);
   getResumeByEmail(req.user.email)
     .then((results) => {
       if (results) {
         const url = `https://api.yuuvis.io/dms-core/objects/${results[0].objectId}/contents/file`
         const key = process.env.API_KEY;
         const headers = { headers: { "Ocp-Apim-Subscription-Key": key } }
-        console.log(url, headers);
         axios.get(url, headers)
           .then((response) => {
             console.log('Client previously submitted resume: ', response.data);
@@ -77,19 +75,20 @@ app.post('/api/resume', verifyUser, express.json(), (req, res) => {
   });
 });
 
-app.get('/api/resume/download', express.json(), (req, res) => {
-  const resume = sample_data.resume;
+app.get('/api/resume/download/', express.json(), (req, res) => {
+  const encodedResume = (req.query.r) ? req.query.r : undefined;
+  const resume = (encodedResume) ? Buffer.from(encodedResume, 'base64') : JSON.stringify(sample_data.resume);
   genResume(resume).then((pugResume) => {
     res.type('application/pdf');
     res.send(pugResume);
   });
 });
 
-app.post('/api/resume/download', express.json(), (req, res) => {
+app.post('/api/resume/download/', express.json(), (req, res) => {
   const resume = req.body.resume;
-  genResume(resume)
+  console.log('Received: ', resume);
+  genResume(JSON.stringify(resume))
     .then((pugResume) => {
-      res.type('application/pdf');
       res.send(pugResume);
     });
 });
