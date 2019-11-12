@@ -69,6 +69,7 @@ class ApplicantForm extends Component {
 ApplicantForm.propTypes = {
   setResume: PropTypes.func,
   resume: PropTypes.objectOf(PropTypes.object),
+  changePage: PropTypes.func.isRequired,
 };
 
 

@@ -48,15 +48,16 @@ app.get('/api/resume', verifyUser, express.json(), (req, res) => {
 });
 
 app.post('/api/resume', verifyUser, express.json(), (req, res) => {
-  let { email, keywords, resume } = req.body;
+  const { email, keywords } = req.body;
   // we need to add a function that writes to resume.json
-  resume = JSON.stringify(resume);
+  const resume = JSON.stringify(req.body.resume);
+
   fs.writeFile(path.join(__dirname, '/resume.json'), resume, (err) => {
     if (err) throw err;
-    const doc_fileName = path.join(__dirname, '/resume.json');
+    const docFileName = path.join(__dirname, '/resume.json');
     const cid = 'cid_63apple';
-    const doc_mimeType = 'application/json';
-    const requestObject = yuuvis.createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
+    const docMimeType = 'application/json';
+    const requestObject = yuuvis.createRequest(email, keywords, docFileName, cid, docMimeType);
 
     yuuvis.executeRequest(requestObject)
       .then((responseBody) => {

@@ -72,7 +72,7 @@ class App extends Component {
       return (
         <>
           <Header changePage={this.setPage} loggedIn={this.state.loggedIn} logout={this.logout} />
-          <ApplicantForm resume={resume} setResume={this.setResume} />
+          <ApplicantForm resume={resume} setResume={this.setResume} changePage={this.setPage}/>
         </>
       );
     }
