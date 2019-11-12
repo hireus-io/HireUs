@@ -20,11 +20,12 @@ app.use(morgan('dev')); // Logs all inbound requests to console
 app.use(express.static('dist'));
 app.use(cookieSession({
   name: 'session',
-  keys: [process.env.COOKIE_SESSION]
-}))
+  keys: [process.env.COOKIE_SESSION],
+}));
 
-//this require must be before passport initializes and after the cooke session middleware
+// this require must be before passport initializes and after the cooke session middleware
 require('./auth');
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -33,20 +34,21 @@ app.get('/api/resume', verifyUser, express.json(), (req, res) => {
   getResumeByEmail(req.user.email)
     .then((results) => {
       if (results) {
-        const url = `https://api.yuuvis.io/dms-core/objects/${results[0].objectId}/contents/file`
+        const url = `https://api.yuuvis.io/dms-core/objects/${results[0].objectId}/contents/file`;
         const key = process.env.API_KEY;
+<<<<<<< HEAD
         const headers = { headers: { "Ocp-Apim-Subscription-Key": key } }
+=======
+        const headers = { headers: { 'Ocp-Apim-Subscription-Key': key } };
+>>>>>>> e8b6718261f45179949174bceaf08226a7f2f357
         axios.get(url, headers)
           .then((response) => {
-            console.log('Client previously submitted resume: ', response.data);
             res.json(response.data);
-          })
-      }
-      else {
+          });
+      } else {
         res.send({});
       }
-    }
-    );
+    });
 });
 
 app.post('/api/resume', verifyUser, express.json(), (req, res) => {
@@ -75,19 +77,34 @@ app.post('/api/resume', verifyUser, express.json(), (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 app.get('/api/resume/download/', express.json(), (req, res) => {
   const encodedResume = (req.query.r) ? req.query.r : undefined;
   const resume = (encodedResume) ? Buffer.from(encodedResume, 'base64') : JSON.stringify(sample_data.resume);
+=======
+app.get('/api/pug', (req, res) => {
+  res.send(pug.renderFile(path.join(`${__dirname}/pug/template.pug`), sample_data));
+});
+// TODO: Refactor Puppeteer function to its own file
+app.get('/api/resume/download', express.json(), (req, res) => {
+  const { resume } = sample_data;
+>>>>>>> e8b6718261f45179949174bceaf08226a7f2f357
   genResume(resume).then((pugResume) => {
     res.type('application/pdf');
     res.send(pugResume);
   });
 });
 
+<<<<<<< HEAD
 app.post('/api/resume/download/', express.json(), (req, res) => {
   const resume = req.body.resume;
   console.log('Received: ', resume);
   genResume(JSON.stringify(resume))
+=======
+app.post('/api/resume/download', express.json(), (req, res) => {
+  const { resume } = req.body;
+  genResume(resume)
+>>>>>>> e8b6718261f45179949174bceaf08226a7f2f357
     .then((pugResume) => {
       res.send(pugResume);
     });
@@ -95,7 +112,7 @@ app.post('/api/resume/download/', express.json(), (req, res) => {
 
 app.get('/auth/linkedin',
   passport.authenticate('linkedin', { state: true }),
-  function (req, res) {
+  (req, res) => {
     // The request will be redirected to LinkedIn for authentication, so this
     // function will not be called.
   });
@@ -104,6 +121,11 @@ app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
   successRedirect: '/',
   failureRedirect: '/login',
 }));
+
+app.get('/auth/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
 
 app.get('/auth/test', verifyUser, (req, res) => {
   res.send(`User authenitcated. Welcome back ${req.user.email}`);
@@ -114,7 +136,7 @@ app.get('/auth/user', (req, res) => {
     res.send({
       isLoggedIn: true,
       email: req.user.email,
-    })
+    });
   } else {
     res.send({
       isLoggedIn: false,

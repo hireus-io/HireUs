@@ -52,10 +52,6 @@ class ApplicantForm extends Component {
   render() {
     return (
       <>
-        <header className={'header'}>
-          <h1 onClick={() => this.props.changePage('home')}>Build Your Resume</h1>
-          <a href="/auth/linkedin">Login</a>
-        </header>
         <Form handleChange={this.handleChange} resume={this.props.resume} >
           <Section.Basics />
           <Section.Work />
@@ -71,7 +67,6 @@ class ApplicantForm extends Component {
 }
 
 ApplicantForm.propTypes = {
-  changePage: PropTypes.func,
   setResume: PropTypes.func,
   resume: PropTypes.objectOf(PropTypes.object),
 };
