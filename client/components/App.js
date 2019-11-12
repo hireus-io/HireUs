@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import React, { Component } from 'react';
-=======
 import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
->>>>>>> e8b6718261f45179949174bceaf08226a7f2f357
 import Recruiting from './Recruiting';
 
 import Splash from './Splash';
@@ -85,7 +81,7 @@ class App extends Component {
         <>
           <Generate changePage={this.setPage} resume={resume} />
         </>
-      )
+      );
     }
     return <div>{'Whoops You Shoul\'nt Be Here'}</div>;
   }

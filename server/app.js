@@ -36,11 +36,7 @@ app.get('/api/resume', verifyUser, express.json(), (req, res) => {
       if (results) {
         const url = `https://api.yuuvis.io/dms-core/objects/${results[0].objectId}/contents/file`;
         const key = process.env.API_KEY;
-<<<<<<< HEAD
-        const headers = { headers: { "Ocp-Apim-Subscription-Key": key } }
-=======
         const headers = { headers: { 'Ocp-Apim-Subscription-Key': key } };
->>>>>>> e8b6718261f45179949174bceaf08226a7f2f357
         axios.get(url, headers)
           .then((response) => {
             res.json(response.data);
@@ -77,34 +73,21 @@ app.post('/api/resume', verifyUser, express.json(), (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-app.get('/api/resume/download/', express.json(), (req, res) => {
-  const encodedResume = (req.query.r) ? req.query.r : undefined;
-  const resume = (encodedResume) ? Buffer.from(encodedResume, 'base64') : JSON.stringify(sample_data.resume);
-=======
 app.get('/api/pug', (req, res) => {
   res.send(pug.renderFile(path.join(`${__dirname}/pug/template.pug`), sample_data));
 });
 // TODO: Refactor Puppeteer function to its own file
 app.get('/api/resume/download', express.json(), (req, res) => {
   const { resume } = sample_data;
->>>>>>> e8b6718261f45179949174bceaf08226a7f2f357
   genResume(resume).then((pugResume) => {
     res.type('application/pdf');
     res.send(pugResume);
   });
 });
 
-<<<<<<< HEAD
-app.post('/api/resume/download/', express.json(), (req, res) => {
-  const resume = req.body.resume;
-  console.log('Received: ', resume);
-  genResume(JSON.stringify(resume))
-=======
 app.post('/api/resume/download', express.json(), (req, res) => {
   const { resume } = req.body;
   genResume(resume)
->>>>>>> e8b6718261f45179949174bceaf08226a7f2f357
     .then((pugResume) => {
       res.send(pugResume);
     });
