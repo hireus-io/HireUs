@@ -10,6 +10,7 @@ class ApplicantForm extends Component {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleRender = this.handleRender.bind(this);
   }
 
   handleChange({ section_subsection, value, index = 0 }) {
@@ -43,10 +44,19 @@ class ApplicantForm extends Component {
       resume,
       keywords: resume.keywords,
       responseType: 'blob',
-    })
-      .then(() => {
-        this.props.changePage('generate');
-      });
+    });
+    // .then(() => {
+    //   this.props.changePage('generate');
+    // });
+  }
+
+  handleRender(e) {
+    e.preventDefault();
+    const { resume } = this.props;
+    const stringResume = JSON.stringify(resume);
+    const encodedResume = btoa(stringResume);
+
+    window.open(`/api/resume/download?r=${encodedResume}`);
   }
 
   render() {
@@ -60,6 +70,7 @@ class ApplicantForm extends Component {
           <Section.Interests />
           <Section.Keywords />
           <input className={'formSubmit'} type={'submit'} onClick={this.handleSubmit.bind(this)}></input>
+          <button onClick={this.handleRender}>Render</button>
         </Form>
       </>
     );
