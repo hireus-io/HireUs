@@ -13,8 +13,7 @@ html
         each skill in resume.skills
           div
           span <b>#{skill.name}</b>: 
-          each keyword in keywords
-            span #{keyword} / 
+          span <p>#{skill.keywords}</p>
       div.section
         h2 Work Experience
         each job in resume.work
@@ -26,5 +25,5 @@ html
       div.section
         h2 Education Experience
         each school in resume.education
-          p #{school.institution} <i>#{school.area}</i> #{school.startdate} - #{school.endDate}
-          p=school.studyType
+          p #{school.institution} #{school.startdate} - #{school.endDate}
+          p #{school.studyType} <i>#{school.area}</i>

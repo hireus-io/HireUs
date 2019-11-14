@@ -61,6 +61,7 @@ class ApplicantForm extends Component {
       <>
         <Form handleChange={this.handleChange} resume={this.props.resume} >
           <Section.Basics />
+          <Section.Skills />
           <Section.Work />
           <Section.Education />
           <Section.Volunteer />

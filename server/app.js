@@ -82,6 +82,7 @@ app.get('/api/resume/download/', express.json(), (req, res) => {
   const encodedResume = (req.query.r) ? req.query.r : undefined;
   let resume = (encodedResume) ? Buffer.from(encodedResume, 'base64').toString('ascii') : JSON.stringify(sample_data.resume);
   resume = JSON.parse(resume);
+  console.log(resume);
   resume.work.map((exp) => {
     exp.highlights = exp.highlights.split(',');
     return exp;
