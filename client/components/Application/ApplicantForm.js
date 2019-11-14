@@ -45,9 +45,6 @@ class ApplicantForm extends Component {
       keywords: resume.keywords,
       responseType: 'blob',
     });
-    // .then(() => {
-    //   this.props.changePage('generate');
-    // });
   }
 
   handleRender(e) {
