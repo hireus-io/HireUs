@@ -8,12 +8,12 @@ html
     div.resume
       div.header
         h1.name #{resume.basics.name}
-        p.basics #{resume.basics.label} - #{resume.basics.phone} #{resume.basics.phone} - #{resume.basics.website}
+        p.basics #{resume.basics.label} - #{resume.basics.phone} - #{resume.basics.location.address}
       div.section.skills
         each skill in resume.skills
           div
           span <b>#{skill.name}</b>: 
-          each keyword in skill.keywords
+          each keyword in keywords
             span #{keyword} / 
       div.section
         h2 Work Experience

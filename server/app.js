@@ -77,9 +77,17 @@ app.post('/api/resume', verifyUser, express.json(), (req, res) => {
 app.get('/api/pug', (req, res) => {
   res.send(pug.renderFile(path.join(`${__dirname}/pug/template.pug`), sample_data));
 });
-// TODO: Refactor Puppeteer function to its own file
-app.get('/api/resume/download', express.json(), (req, res) => {
-  const { resume } = sample_data;
+
+app.get('/api/resume/download/', express.json(), (req, res) => {
+  const encodedResume = (req.query.r) ? req.query.r : undefined;
+  let resume = (encodedResume) ? Buffer.from(encodedResume, 'base64').toString('ascii') : JSON.stringify(sample_data.resume);
+  resume = JSON.parse(resume);
+  resume.work.map((exp) => {
+    exp.highlights = exp.highlights.split(',');
+    return exp;
+  });
+  resume.keywords = resume.keywords.split(',');
+  resume = JSON.stringify(resume);
   genResume(resume).then((pugResume) => {
     res.type('application/pdf');
     res.send(pugResume);
