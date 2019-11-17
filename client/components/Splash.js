@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
 const Splash = ({ changePage }) => (
   <>
-    <div className={'header'}>
-      <h1>Hire US</h1>
-    </div>
     <div className={'splash'}>
-      <button onClick={e => changePage(e, 'create')}>Create A Resume</button>
-      <button onClick={e => changePage(e, 'search')}>Search Resumes</button>
+      <button onClick={() => changePage('create')}>Create A Resume</button>
+      <button onClick={() => changePage('search')}>Search Resumes</button>
       <div className={'callToAction'}>{'Job searching  is horrible. But it doesn\'t have to be.'}</div>
+      <div id={'errLogin'}>Please log in to continue</div>
     </div>
     <div className={'footer'}>
       <h4>Powered By Yuuvis</h4>

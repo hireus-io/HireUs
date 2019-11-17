@@ -1,169 +1,143 @@
 const express = require('express');
-const cp = require('child_process');
-const util = require('util');
 const fs = require('fs');
 const axios = require('axios');
 const path = require('path');
-const request = require('request');
+const morgan = require('morgan');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+
+const verifyUser = require('./middleware/verifyUser');
+const sample_data = require('./pug/sample_data');
+const yuuvis = require('./helper_functions/yuuvis');
+const { createResume, getResumeByEmail } = require('./db/Controllers/Resume');
+const { genResume } = require('./helper_functions/pug');
 
 require('dotenv').config();
-
-function createDocumentMetadata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType) {
-  return {
-    objects: [
-      {
-        properties: {
-          'enaio:objectTypeId': {
-            value: 'resume',
-          },
-          email: {
-            value: doc_email,
-          },
-          keywords: {
-            value: doc_keywords,
-          },
-        },
-        contentStreams: [{
-          mimeType: doc_contentType,
-          fileName: doc_fileName,
-          cid,
-        }],
-      },
-    ],
-  };
-}
-
-function createImportFormdata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType) {
-  const meta = JSON.stringify(createDocumentMetadata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType));
-  console.log(meta);
-  const formData = {};
-  formData.data = {
-    value: meta,
-    options: {
-      contentType: 'application/json',
-    },
-  };
-  formData[cid] = {
-    value: fs.createReadStream(doc_fileName),
-    options: {
-      contentType: doc_contentType,
-      filename: doc_fileName,
-    },
-  };
-  return formData;
-}
-
-function createRequest(doc_email, doc_keywords, doc_fileName, cid, doc_contentType) {
-  const baseUrl = 'https://api.yuuvis.io/';
-  return {
-    method: 'POST',
-    uri: `${baseUrl}dms/objects/`,
-    headers: {
-      Accept: 'application/json',
-      'Ocp-Apim-Subscription-Key': process.env.API_KEY,
-    },
-    formData: createImportFormdata(doc_email, doc_keywords, doc_fileName, cid, doc_contentType),
-  };
-}
-
-
-function executeRequest(request_object) {
-  request.post(request_object, (err, httpResponse, body) => {
-    if (err) throw err;
-    else {
-      console.log(httpResponse.statusCode);
-      console.log(body);
-    }
-  });
-}
-
-const exec = util.promisify(cp.exec);
+require('./db/config');
 
 const app = express();
-app.use(require('morgan')('dev')); // Logs all inbound requests to console
-
+app.use(morgan('dev')); // Logs all inbound requests to console
 app.use(express.static('dist'));
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.COOKIE_SESSION],
+}));
 
-// app.post('/api/resume', (req, res) => {
+// this require must be before passport initializes and after the cooke session middleware
+require('./auth');
 
-// });
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('/api/download/resume', (req, res) => {
-  res.download('resume.pdf', 'resume.pdf');
+
+app.get('/api/resume', verifyUser, express.json(), (req, res) => {
+  getResumeByEmail(req.user.email)
+    .then((results) => {
+      if (results) {
+        const url = `https://api.yuuvis.io/dms-core/objects/${results[0].objectId}/contents/file`;
+        const key = process.env.API_KEY;
+        const headers = { headers: { 'Ocp-Apim-Subscription-Key': key } };
+        axios.get(url, headers)
+          .then((response) => {
+            res.json(response.data);
+          });
+      } else {
+        res.send({});
+      }
+    });
 });
 
-/*
-  TEST POST
-
-  This post request:
-  1) gets json resume from client-side
-  2) posts the json to yuuvis
-  3) returns yuuvis response body
-
-*/
-app.post('/api/resume', express.json(), (req, res) => {
-  let { email, keywords, resume } = req.body;
+app.post('/api/resume', verifyUser, express.json(), (req, res) => {
+  const { email, keywords } = req.body;
   // we need to add a function that writes to resume.json
-  resume = JSON.stringify(resume);
+  const resume = JSON.stringify(req.body.resume);
+
   fs.writeFile(path.join(__dirname, '/resume.json'), resume, (err) => {
     if (err) throw err;
-    const key = process.env.API_KEY;
-    const baseUrl = 'https://api.yuuvis.io/';
-    const doc_name = 'resume.json';
-    const doc_fileName = path.join(__dirname, '/resume.json');
+    const docFileName = path.join(__dirname, '/resume.json');
     const cid = 'cid_63apple';
-    const doc_mimeType = 'application/json';
-    const requestObject = createRequest(email, keywords, doc_fileName, cid, doc_mimeType);
+    const docMimeType = 'application/json';
+    const requestObject = yuuvis.createRequest(email, keywords, docFileName, cid, docMimeType);
 
-    executeRequest(requestObject);
-
-  });
-
-  fs.writeFile('resume.json', JSON.stringify(req.body.resume, null, 2), () => {
-    exec('resume export resume.pdf')
-      .then(() => {
-        res.download('resume.pdf', 'resume.pdf');
+    yuuvis.executeRequest(requestObject)
+      .then((responseBody) => {
+        const response = JSON.parse(responseBody);
+        const objectId = response.objects[0].properties['enaio:objectId'].value;
+        return createResume(req.user.email, objectId);
       })
-      .catch(() => {
-        res.end();
+      .then(() => {
+        res.send(201);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   });
-
-  // const metadata = JSON.stringify(meta);
-  // const resumedata = JSON.stringify(data);
-  // // console.log(metadata);
-  // // console.log(resumedata);
-  // const formData = new FormData();
-  // const a = path.join(__dirname, '/sample_data/metadata.json')
-  // // const b = path.join(__dirname, '/sample_data/resume.json')
-  // fs.readFile(a, function(err, data) {
-  //   formData.append('data', Buffer.from(data).toString(), 'metadata.json');
-  //   formData.append('cid_63apple', Buffer.from(data).toString(), 'resume.json');
-
-  //   axios({
-  //     "url": 'https://api.yuuvis.io/dms/objects',
-  //     "method": 'POST',
-  //     headers: {
-  //       "Ocp-Apim-Subscription-Key": "",
-  //       "Accept": "application/json"
-  //     },
-  //     data: formData,
-  //   })
-  //     .then((x) => {
-  //       console.log(x);
-  //       res.send(x);
-  //     })
-  //     .catch((e) => {
-  //       console.log('Error:', e);
-  //       res.send('Error');
-  //     });
-  // })
-
-
-
-
 });
-app.get('/api/resume/:keyword', (req, res) => {
+
+app.get('/api/pug', (req, res) => {
+  res.send(pug.renderFile(path.join(`${__dirname}/pug/template.pug`), sample_data));
+});
+
+app.get('/api/resume/download/', express.json(), (req, res) => {
+  const encodedResume = (req.query.r) ? req.query.r : undefined;
+  let resume = (encodedResume) ? Buffer.from(encodedResume, 'base64').toString('ascii') : JSON.stringify(sample_data.resume);
+  resume = JSON.parse(resume);
+  console.log(resume);
+  resume.work.map((exp) => {
+    exp.highlights = exp.highlights.split(',');
+    return exp;
+  });
+  resume.keywords = resume.keywords.split(',');
+  resume = JSON.stringify(resume);
+  genResume(resume).then((pugResume) => {
+    res.type('application/pdf');
+    res.send(pugResume);
+  });
+});
+
+app.post('/api/resume/download', express.json(), (req, res) => {
+  const { resume } = req.body;
+  genResume(resume)
+    .then((pugResume) => {
+      res.send(pugResume);
+    });
+});
+
+app.get('/auth/linkedin',
+  passport.authenticate('linkedin', { state: true }),
+  (req, res) => {
+    // The request will be redirected to LinkedIn for authentication, so this
+    // function will not be called.
+  });
+
+app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+}));
+
+app.get('/auth/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
+app.get('/auth/test', verifyUser, (req, res) => {
+  res.send(`User authenitcated. Welcome back ${req.user.email}`);
+});
+
+app.get('/auth/user', (req, res) => {
+  if (req.user) {
+    res.send({
+      isLoggedIn: true,
+      email: req.user.email,
+    });
+  } else {
+    res.send({
+      isLoggedIn: false,
+    });
+  }
+});
+
+app.get('/api/resume/:keywords', (req, res) => {
   const { keywords } = req.params;
   const searches = keywords.split('&');
   let searchString = '';
@@ -172,15 +146,13 @@ app.get('/api/resume/:keyword', (req, res) => {
     searchString += `CONTAINS('${searches[i]}') OR `;
   }
   searchString = searchString.substring(0, searchString.length - 4);
-  console.log(searchString);
-
   axios({
-    url: 'https://api.yuuvis.io/dms/objects/search',
+    url: 'https://api.yuuvis.io/dms-core/objects/search',
     method: 'POST',
     headers: { 'Ocp-Apim-Subscription-Key': process.env.API_KEY },
     data: {
       query: {
-        statement: `SELECT * FROM enaio:object WHERE CONTAINS('${keyword}')`,
+        statement: `SELECT * FROM enaio:object WHERE ${searchString}`,
       },
     },
   })
@@ -188,19 +160,25 @@ app.get('/api/resume/:keyword', (req, res) => {
       const promises = response.data.objects.map((entry) => {
         const objectId = entry.properties['enaio:objectId'].value;
         const contentType = entry.contentStreams[0].mimeType;
+        const headers = { headers: { 'Ocp-Apim-Subscription-Key': process.env.API_KEY } };
         if (contentType === 'application/pdf') {
           return;
         }
-        const headers = { headers: { 'Ocp-Apim-Subscription-Key': process.env.API_KEY } };
-        return axios.get(`https://api.yuuvis.io/dms/objects/${objectId}/contents/file`, headers);
+
+        return axios.get(`https://api.yuuvis.io/dms-core/objects/${objectId}/contents/file`, headers);
       });
       Promise.all(promises)
         .then((results) => {
-          const resumes = results.map(result => result.data);
+          const resumes = results.map((result) => {
+            const resume = result.data;
+            const objectId = result.request.path.split('/')[3];
+            resume.objectId = objectId;
+            return resume;
+          });
           res.send(resumes);
         })
         .catch((err) => {
-          throw (err);
+          console.log(err);
           res.send();
         });
     })
